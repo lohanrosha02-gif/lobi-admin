@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>LOBI Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="brand-lockup">
+        <div class="brand-mark">LOBI<span>!</span></div>
+        <small>ADMIN</small>
+      </div>
+      <p class="eyebrow">PAINEL ADMINISTRATIVO</p>
+      <h1>ENTRAR</h1>
+      <p class="muted">Use a conta de administrador cadastrada no Supabase.</p>
+      <form id="loginForm" class="form-stack">
+        <label>E-mail<input id="loginEmail" type="email" autocomplete="email" required placeholder="seuemail@exemplo.com"></label>
+        <label>Senha<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••"></label>
+        <button class="btn btn-primary" id="loginButton" type="submit">ENTRAR</button>
+      </form>
+      <p class="form-message" id="loginMessage"></p>
+    </div>
+  </section>
+
+  <div class="app hidden" id="adminApp">
+    <aside class="sidebar" id="sidebar">
+      <div>
+        <div class="brand-lockup sidebar-brand"><div class="brand-mark">LOBI<span>!</span></div><small>ADMIN</small></div>
+        <nav class="side-nav"><button class="nav-item active" type="button">Produtos</button></nav>
+      </div>
+      <div class="sidebar-bottom">
+        <p id="adminEmail" class="admin-email"></p>
+        <button id="logoutButton" class="btn btn-ghost" type="button">SAIR</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PRODUTOS</h1></div>
+        <div class="topbar-actions">
+          <button class="mobile-menu" id="mobileMenuButton" type="button" aria-label="Abrir menu">☰</button>
+          <button class="btn btn-primary" id="newProductButton" type="button">+ NOVO PRODUTO</button>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="stat"><span>TOTAL</span><strong id="statTotal">0</strong></article>
+        <article class="stat"><span>ATIVOS</span><strong id="statActive">0</strong></article>
+        <article class="stat"><span>SEM ESTOQUE</span><strong id="statOut">0</strong></article>
+      </section>
+
+      <section class="toolbar">
+        <label class="search-box"><span>⌕</span><input id="productSearch" type="search" placeholder="Buscar produto..."></label>
+        <select id="categoryFilter" aria-label="Filtrar categoria"><option value="">Todas as categorias</option></select>
+      </section>
+
+      <section class="products-panel">
+        <div id="loadingProducts" class="state-message">Carregando produtos...</div>
+        <div id="emptyProducts" class="state-message hidden">Nenhum produto cadastrado ainda.</div>
+        <div class="table-wrap hidden" id="productsTableWrap">
+          <table class="products-table">
+            <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Status</th><th></th></tr></thead>
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="productModal">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+      <header class="modal-header">
+        <div><p class="eyebrow">CATÁLOGO LOBI</p><h2 id="productModalTitle">NOVO PRODUTO</h2></div>
+        <button class="icon-button" id="closeProductModal" type="button" aria-label="Fechar">×</button>
+      </header>
+      <form id="productForm">
+        <input type="hidden" id="productId"><input type="hidden" id="currentImageUrl"><input type="hidden" id="currentImagePath">
+        <div class="form-grid">
+          <label class="span-2">Nome do produto<input id="productName" type="text" maxlength="120" required placeholder="Ex.: Camiseta Oversized Black"></label>
+          <label>Preço<input id="productPrice" type="number" min="0" step="0.01" required placeholder="89.90"></label>
+          <label>Estoque total<input id="productStock" type="number" min="0" step="1" required value="0"></label>
+          <label>Categoria<input id="productCategory" type="text" maxlength="60" required placeholder="camisetas"></label>
+          <label>Tag<input id="productTag" type="text" maxlength="30" placeholder="NOVO"></label>
+          <label class="span-2">Tamanhos<input id="productSizes" type="text" placeholder="P, M, G, GG"><small>Separe os tamanhos por vírgula.</small></label>
+          <label class="span-2">Descrição<textarea id="productDescription" rows="5" maxlength="1000" placeholder="Descrição da peça..."></textarea></label>
+          <div class="span-2 image-field">
+            <div><span class="label-title">Imagem do produto</span><small>JPG, PNG ou WEBP. Máximo: 5 MB.</small></div>
+            <label class="upload-box"><input id="productImage" type="file" accept="image/jpeg,image/png,image/webp"><span>ESCOLHER IMAGEM</span></label>
+            <div class="image-preview-wrap hidden" id="imagePreviewWrap"><img id="imagePreview" alt="Prévia do produto"></div>
+          </div>
+          <label class="toggle-row span-2"><input id="productActive" type="checkbox" checked><span class="toggle"></span><span>Produto ativo na loja</span></label>
+        </div>
+        <p id="productFormMessage" class="form-message"></p>
+        <footer class="modal-actions">
+          <button class="btn btn-ghost" id="cancelProductButton" type="button">CANCELAR</button>
+          <button class="btn btn-primary" id="saveProductButton" type="submit">SALVAR PRODUTO</button>
+        </footer>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop hidden" id="deleteModal">
+    <section class="confirm-card" role="dialog" aria-modal="true">
+      <p class="eyebrow">ATENÇÃO</p><h2>EXCLUIR PRODUTO?</h2>
+      <p class="muted">Essa ação remove o produto do banco. A imagem vinculada também será apagada quando possível.</p>
+      <div class="modal-actions"><button class="btn btn-ghost" id="cancelDeleteButton" type="button">CANCELAR</button><button class="btn btn-danger" id="confirmDeleteButton" type="button">EXCLUIR</button></div>
+    </section>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
