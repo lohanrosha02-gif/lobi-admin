@@ -66,6 +66,7 @@
     const controls = pageView.querySelector(".editor-controls");
     if(orderPanel) controls.insertBefore(panel,orderPanel); else controls.appendChild(panel);
     $("#addBlockBtn").onclick=chooseType;
+    $("#quickAddBlock")?.addEventListener("click",chooseType);
     $("#saveBlocksBtn").onclick=save;
     $("#undoDeleteBtn").onclick=undoLastDelete;
   }
