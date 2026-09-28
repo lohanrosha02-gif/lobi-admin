@@ -89,7 +89,8 @@
         <div class="page-editor-shell">
           <aside class="editor-controls">
             <div class="editor-toolbar">
-              <button class="btn btn-primary" id="saveSiteConfig" type="button">SALVAR ALTERAÇÕES</button>
+              <button class="btn btn-primary" id="saveAllPage" type="button">SALVAR TUDO</button>
+              <button class="btn btn-ghost" id="saveSiteConfig" type="button">SALVAR VISUAL</button>
               <button class="btn btn-ghost" id="reloadSiteConfig" type="button">RECARREGAR</button>
               <button class="btn btn-ghost" id="resetSiteConfig" type="button">PADRÃO</button>
             </div>
@@ -208,7 +209,7 @@
 
           <section class="editor-preview-panel">
             <div class="preview-bar">
-              <div><p class="eyebrow">PRÉVIA AO VIVO</p><span class="editor-help">Clique para editar. Use o botão direito do mouse para excluir.</span></div>
+              <div><p class="eyebrow">EDITOR VISUAL DIRETO</p><span class="editor-help">Clique no elemento para editar · arraste a seção para mover · botão direito para excluir.</span><div id="visualSelectionInfo" class="visual-selection-info">Nenhum elemento selecionado</div></div>
               <div class="preview-devices">
                 <button class="preview-device active" type="button" data-device="desktop">Desktop</button>
                 <button class="preview-device" type="button" data-device="tablet">Tablet</button>
