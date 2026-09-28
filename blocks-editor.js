@@ -149,6 +149,29 @@
     }
   }
 
+  function reorderBlockFromPreview(fromId,toId,after=false){
+    if(!fromId||!toId||fromId===toId)return;
+    const from=blocks.findIndex(x=>x.id===fromId);
+    const targetOriginal=blocks.findIndex(x=>x.id===toId);
+    if(from<0||targetOriginal<0)return;
+    const moved=blocks.splice(from,1)[0];
+    const targetBlock=blocks.find(x=>x.id===toId);
+    if(targetBlock)moved.placement=targetBlock.placement||moved.placement;
+    let target=blocks.findIndex(x=>x.id===toId);
+    if(after)target+=1;
+    blocks.splice(Math.max(0,target),0,moved);
+    render();
+    status("Item movido diretamente na prévia. Salve para publicar.","ok");
+  }
+
+  function placeBlockFromPreview(blockId,placement){
+    const b=blocks.find(x=>x.id===blockId);
+    if(!b||!placeNames[placement])return;
+    b.placement=placement;
+    render();
+    status("Item reposicionado diretamente na prévia. Salve para publicar.","ok");
+  }
+
   function render(){
     const list=$("#blocksList"); if(!list)return;
     list.innerHTML="";
@@ -292,7 +315,7 @@
 
   function start(){
     if(started)return;started=true;addStyles();injectUI();load();
-    window.addEventListener("message",e=>{if(e.data&&e.data.type==="lobi-preview-ready")setTimeout(sendPreview,120);if(e.data&&e.data.type==="lobi-editor-context-delete-block"&&e.data.id)confirmDeleteBlock(e.data.id);});
+    window.addEventListener("message",e=>{if(e.data&&e.data.type==="lobi-preview-ready")setTimeout(sendPreview,120);if(e.data&&e.data.type==="lobi-editor-context-delete-block"&&e.data.id)confirmDeleteBlock(e.data.id);if(e.data&&e.data.type==="lobi-editor-select-block"&&e.data.id)editBlock(e.data.id);if(e.data&&e.data.type==="lobi-editor-reorder-block")reorderBlockFromPreview(e.data.fromId,e.data.toId,!!e.data.after);if(e.data&&e.data.type==="lobi-editor-place-block")placeBlockFromPreview(e.data.id,e.data.placement);});
   }
 
   document.getElementById("pageNavButton")?.addEventListener("click",()=>setTimeout(start,50));
