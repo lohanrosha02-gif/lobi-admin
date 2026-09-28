@@ -9,6 +9,8 @@
   let blocks = [];
   let rowId = null;
   let started = false;
+  let lastDeleted = null;
+  let undoTimer = null;
 
   const typeNames = {banner:"Banner",text:"Texto",image:"Imagem",cta:"Chamada + botão",spacer:"Espaço",divider:"Linha divisória"};
   const placeNames = {afterHero:"Depois da capa",beforeProducts:"Antes dos produtos",afterProducts:"Depois dos produtos",beforeManifesto:"Antes do Sobre",afterManifesto:"Depois do Sobre"};
@@ -27,6 +29,8 @@
       ".blocks-panel[open]>summary{color:var(--green);border-bottom:1px solid var(--border)}" +
       ".blocks-body{padding:15px;display:grid;gap:12px}.blocks-toolbar{display:flex;gap:8px;flex-wrap:wrap}" +
       ".blocks-status{min-height:15px;color:#777;font-size:9px}.blocks-status.ok{color:var(--green)}.blocks-status.error{color:#ff7770}" +
+      ".undo-delete{display:none;width:100%;border:1px solid rgba(183,255,0,.35);background:rgba(183,255,0,.08);color:var(--green);padding:10px 12px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.undo-delete.show{display:block}" +
+      ".delete-confirm-copy{color:#aaa;font-size:11px;line-height:1.7;margin:4px 0 6px}.delete-confirm-name{color:#fff;font-weight:800}.delete-confirm-note{color:#777;font-size:9px;line-height:1.5}" +
       ".blocks-list{display:grid;gap:8px}.block-row{display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:center;padding:10px;border:1px solid var(--border);background:#0d0d0d}" +
       ".block-row.dragging{opacity:.45}.block-row.off{opacity:.5}.drag-block{color:var(--green);font-size:18px;cursor:grab}.block-name{font-size:10px;font-weight:800;text-transform:uppercase}.block-sub{margin-top:3px;color:#666;font-size:8px}" +
       ".block-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.block-mini{border:1px solid var(--border);background:transparent;color:#aaa;padding:7px 8px;font-size:8px;font-weight:800;text-transform:uppercase}.block-mini:hover{color:#fff}.block-mini.del:hover{color:#ff7770;border-color:rgba(239,43,32,.5)}" +
@@ -55,6 +59,7 @@
         "<p class='editor-help'>Crie novos banners, textos, imagens e outros blocos. Arraste para reorganizar os itens adicionados.</p>" +
         "<div class='blocks-toolbar'><button class='btn btn-primary' id='addBlockBtn' type='button'>+ ADICIONAR ITEM</button><button class='btn btn-ghost' id='saveBlocksBtn' type='button'>SALVAR ITENS</button></div>" +
         "<div id='blocksStatus' class='blocks-status'></div>" +
+        "<button id='undoDeleteBtn' class='undo-delete' type='button'>↶ DESFAZER ÚLTIMA EXCLUSÃO</button>" +
         "<div id='blocksList' class='blocks-list'></div>" +
       "</div>";
     const orderPanel = pageView.querySelector('[data-editor-section="order"]');
@@ -62,6 +67,7 @@
     if(orderPanel) controls.insertBefore(panel,orderPanel); else controls.appendChild(panel);
     $("#addBlockBtn").onclick=chooseType;
     $("#saveBlocksBtn").onclick=save;
+    $("#undoDeleteBtn").onclick=undoLastDelete;
   }
 
   function template(type){
@@ -75,10 +81,78 @@
     return b;
   }
 
+  function updateUndoUI(){
+    const btn=$("#undoDeleteBtn");
+    if(!btn)return;
+    if(lastDeleted){
+      btn.classList.add("show");
+      btn.textContent="↶ DESFAZER EXCLUSÃO: "+(lastDeleted.block.name||typeNames[lastDeleted.block.type]||"ITEM");
+    }else{
+      btn.classList.remove("show");
+      btn.textContent="↶ DESFAZER ÚLTIMA EXCLUSÃO";
+    }
+  }
+
+  function clearUndo(){
+    lastDeleted=null;
+    clearTimeout(undoTimer);
+    undoTimer=null;
+    updateUndoUI();
+  }
+
+  function confirmDeleteBlock(blockId){
+    const index=blocks.findIndex(x=>x.id===blockId);
+    if(index<0)return;
+    const b=blocks[index];
+    const bg=document.createElement("div");
+    bg.className="blocks-modal-bg";
+    bg.innerHTML=
+      "<section class='blocks-modal' style='width:min(520px,100%)'>" +
+        "<div class='blocks-modal-head'><div><p class='eyebrow'>CONFIRMAR EXCLUSÃO</p><h2>EXCLUIR ITEM?</h2></div><button class='blocks-close' type='button'>×</button></div>" +
+        "<p class='delete-confirm-copy'>Você está prestes a excluir <span class='delete-confirm-name'>"+esc(b.name||typeNames[b.type])+"</span>.</p>" +
+        "<p class='delete-confirm-note'>A ordem dos outros blocos será mantida. Você poderá desfazer esta exclusão enquanto continuar nesta tela. Para publicar no site principal, use SALVAR ITENS.</p>" +
+        "<div class='blocks-modal-actions'><button class='btn btn-ghost cancel-delete' type='button'>CANCELAR</button><button class='btn btn-danger confirm-delete' type='button'>EXCLUIR ITEM</button></div>" +
+      "</section>";
+    const close=()=>bg.remove();
+    $(".blocks-close",bg).onclick=close;
+    $(".cancel-delete",bg).onclick=close;
+    bg.onclick=e=>{if(e.target===bg)close();};
+    $(".confirm-delete",bg).onclick=()=>{
+      const deleted=blocks.splice(index,1)[0];
+      lastDeleted={block:JSON.parse(JSON.stringify(deleted)),index:index,saved:false};
+      clearTimeout(undoTimer);
+      undoTimer=setTimeout(()=>clearUndo(),300000);
+      close();
+      render();
+      updateUndoUI();
+      status("Item excluído. Você pode desfazer antes ou depois de salvar.","ok");
+    };
+    document.body.appendChild(bg);
+  }
+
+  async function undoLastDelete(){
+    if(!lastDeleted)return;
+    const snapshot=lastDeleted;
+    const restoreAt=Math.max(0,Math.min(snapshot.index,blocks.length));
+    if(blocks.some(x=>x.id===snapshot.block.id)){
+      clearUndo();
+      return;
+    }
+    blocks.splice(restoreAt,0,JSON.parse(JSON.stringify(snapshot.block)));
+    const wasSaved=snapshot.saved;
+    clearUndo();
+    render();
+    status("Exclusão desfeita. O item voltou exatamente para a posição anterior.","ok");
+    if(wasSaved){
+      await save();
+      status("Exclusão desfeita e sincronizada novamente com o site principal.","ok");
+    }
+  }
+
   function render(){
     const list=$("#blocksList"); if(!list)return;
     list.innerHTML="";
-    if(!blocks.length){list.innerHTML="<p class='editor-help'>Nenhum item adicional ainda.</p>";sendPreview();return;}
+    if(!blocks.length){list.innerHTML="<p class='editor-help'>Nenhum item adicional ainda.</p>";updateUndoUI();sendPreview();return;}
     blocks.forEach((b,index)=>{
       const row=document.createElement("div");
       row.className="block-row"+(b.visible===false?" off":"");
@@ -100,9 +174,10 @@
       $(".edit",row).onclick=()=>editBlock(b.id);
       $(".dup",row).onclick=()=>{const n=JSON.parse(JSON.stringify(b));n.id=id();n.name=(b.name||typeNames[b.type])+" cópia";blocks.splice(index+1,0,n);render();status("Item duplicado. Salve para publicar.");};
       $(".vis",row).onclick=()=>{b.visible=b.visible===false?true:false;render();status("Visibilidade alterada. Salve para publicar.");};
-      $(".del",row).onclick=()=>{if(confirm("Excluir este item?")){blocks=blocks.filter(x=>x.id!==b.id);render();status("Item excluído. Salve para publicar.");}};
+      $(".del",row).onclick=()=>confirmDeleteBlock(b.id);
       list.appendChild(row);
     });
+    updateUndoUI();
     sendPreview();
   }
 
@@ -198,7 +273,7 @@
     if(r.error){console.error(r.error);status("Erro ao carregar itens.","error");return;}
     if(r.data&&r.data.length){rowId=r.data[0].id;try{blocks=JSON.parse(r.data[0].description||"[]");if(!Array.isArray(blocks))blocks=[];}catch{blocks=[];}}
     else{rowId=null;blocks=[];}
-    render();status("Itens carregados.","ok");
+    clearUndo();render();status("Itens carregados.","ok");
   }
 
   async function save(){
@@ -206,7 +281,7 @@
     const payload={name:NAME,price:0,category:CATEGORY,description:JSON.stringify(blocks),sizes:[],stock:0,tag:"SYSTEM",active:true,image_url:null,image_path:null,updated_at:new Date().toISOString()};
     const r=rowId ? await sb.from("products").update(payload).eq("id",rowId).select("id").single() : await sb.from("products").insert(payload).select("id").single();
     if(r.error){console.error(r.error);status(r.error.message||"Erro ao salvar.","error");return;}
-    rowId=r.data.id;status("Itens publicados no site.","ok");sendPreview();
+    rowId=r.data.id;if(lastDeleted)lastDeleted.saved=true;status("Itens publicados no site.","ok");sendPreview();updateUndoUI();
   }
 
   function sendPreview(){
