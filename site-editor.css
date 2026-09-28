@@ -40,3 +40,9 @@
 .preset-row{display:grid;grid-template-columns:1fr auto;gap:8px}
 @media(max-width:1100px){.page-editor-shell{grid-template-columns:1fr}.editor-controls,.editor-preview-panel{position:static;max-height:none}}
 @media(max-width:650px){.editor-grid-2{grid-template-columns:1fr}.preview-stage{min-height:590px;padding:5px}.preview-frame-wrap{height:650px}.preview-frame-wrap.mobile{width:100%}.editor-controls{padding:12px}.editor-preview-panel{padding:8px}}
+
+.visual-selection-info{margin-top:6px;color:var(--green);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.editor-group.visual-active{border-color:rgba(183,255,0,.65);box-shadow:0 0 0 1px rgba(183,255,0,.18) inset}
+.editor-group.visual-active>summary{color:var(--green)}
+.editor-focus-pulse{animation:lobiEditorPulse .9s ease}
+@keyframes lobiEditorPulse{0%{box-shadow:0 0 0 0 rgba(183,255,0,.0)}35%{box-shadow:0 0 0 2px rgba(183,255,0,.55)}100%{box-shadow:0 0 0 0 rgba(183,255,0,.0)}}
