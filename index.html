@@ -35,8 +35,8 @@
       <div>
         <div class="brand-lockup sidebar-brand"><div class="brand-mark">LOBI<span>!</span></div><small>ADMIN</small></div>
         <nav class="side-nav">
-          <button class="nav-item active" id="productsNavButton" type="button" data-view="products">Produtos</button>
-          <button class="nav-item" id="pageNavButton" type="button" data-view="page">Página</button>
+          <button class="nav-item active" id="productsNavButton" type="button" data-view="products"><span class="nav-icon">▦</span><span>Produtos</span></button>
+          <button class="nav-item" id="pageNavButton" type="button" data-view="page"><span class="nav-icon">✦</span><span>Página</span></button>
         </nav>
       </div>
       <div class="sidebar-bottom">
@@ -48,7 +48,7 @@
     <main class="main">
       <section class="admin-view" id="productsView">
       <header class="topbar">
-        <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PRODUTOS</h1></div>
+        <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PRODUTOS</h1><p class="topbar-subtitle">Cadastre, edite e organize o catálogo da loja.</p></div>
         <div class="topbar-actions">
           <button class="mobile-menu" id="mobileMenuButton" type="button" aria-label="Abrir menu">☰</button>
           <button class="btn btn-primary" id="newProductButton" type="button">+ NOVO PRODUTO</button>
@@ -80,7 +80,7 @@
 
       <section class="admin-view hidden" id="pageView">
         <header class="topbar">
-          <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PÁGINA</h1></div>
+          <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PÁGINA</h1><p class="topbar-subtitle">Edite a loja visualmente direto na prévia.</p></div>
           <div class="topbar-actions">
             <button class="mobile-menu" id="mobileMenuButtonPage" type="button" aria-label="Abrir menu">☰</button>
           </div>
@@ -218,6 +218,7 @@
                 </div>
                 <button class="btn btn-ghost" id="quickAddBlock" type="button">+ ITEM</button>
                 <button class="btn btn-ghost" id="toggleAdvancedEditor" type="button">AJUSTES AVANÇADOS</button>
+                <a class="btn btn-ghost btn-link" id="openStoreButton" href="../lobi-lifestyle/" target="_blank" rel="noopener">VER LOJA ↗</a>
                 <button class="btn btn-primary" id="saveAllPageQuick" type="button">SALVAR TUDO</button>
               </div>
             </div>
