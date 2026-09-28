@@ -165,6 +165,7 @@
       row.ondragstart=()=>row.classList.add("dragging");
       row.ondragend=()=>row.classList.remove("dragging");
       row.ondragover=e=>e.preventDefault();
+      row.oncontextmenu=e=>{e.preventDefault();confirmDeleteBlock(b.id);};
       row.ondrop=e=>{
         e.preventDefault();
         const d=list.querySelector(".dragging"); if(!d||d===row)return;
@@ -291,7 +292,7 @@
 
   function start(){
     if(started)return;started=true;addStyles();injectUI();load();
-    window.addEventListener("message",e=>{if(e.data&&e.data.type==="lobi-preview-ready")setTimeout(sendPreview,120);});
+    window.addEventListener("message",e=>{if(e.data&&e.data.type==="lobi-preview-ready")setTimeout(sendPreview,120);if(e.data&&e.data.type==="lobi-editor-context-delete-block"&&e.data.id)confirmDeleteBlock(e.data.id);});
   }
 
   document.getElementById("pageNavButton")?.addEventListener("click",()=>setTimeout(start,50));
