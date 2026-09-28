@@ -530,6 +530,7 @@
 
     window.addEventListener("message",e=>{
       if(e.data?.type==="lobi-editor-select") focusSection(e.data.section);
+      if(e.data?.type==="lobi-editor-open-advanced"){setVisualMode(false);focusSection(e.data.section);}
       if(e.data?.type==="lobi-editor-focus-field") focusEditorField(e.data.section,e.data.field);
       if(e.data?.type==="lobi-editor-inline-change") applyInlineChange(e.data.section,e.data.field,e.data.value??"");
       if(e.data?.type==="lobi-editor-reorder-fixed") reorderFixedFromPreview(e.data.from,e.data.to,!!e.data.after);
