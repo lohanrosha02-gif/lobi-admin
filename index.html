@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">\n  <link rel="stylesheet" href="site-editor.css">
 </head>
 <body>
   <section class="login-screen" id="loginScreen">
@@ -85,20 +85,139 @@
           </div>
         </header>
 
-        <section class="page-placeholder">
-          <p class="eyebrow">EDITOR DA LOJA</p>
-          <h2>PERSONALIZAÇÃO DA PÁGINA</h2>
-          <p>
-            Aqui ficará o editor visual da LOBI para alterar banners, imagens, textos,
-            cores, tamanhos, temas e organização das seções sem mexer no código.
-          </p>
-          <div class="page-feature-grid">
-            <div><strong>BANNERS</strong><span>Imagens, posição e tamanho</span></div>
-            <div><strong>CORES E TEMA</strong><span>Paleta, fundos e botões</span></div>
-            <div><strong>LAYOUT</strong><span>Ordem e tamanho das seções</span></div>
-            <div><strong>TEXTOS</strong><span>Títulos, chamadas e conteúdo</span></div>
-          </div>
-        </section>
+        <div class="page-editor-shell">
+          <aside class="editor-controls">
+            <div class="editor-toolbar">
+              <button class="btn btn-primary" id="saveSiteConfig" type="button">SALVAR ALTERAÇÕES</button>
+              <button class="btn btn-ghost" id="reloadSiteConfig" type="button">RECARREGAR</button>
+              <button class="btn btn-ghost" id="resetSiteConfig" type="button">PADRÃO</button>
+            </div>
+            <div id="editorStatus" class="editor-status">Abra esta área para carregar o editor.</div>
+
+            <details class="editor-group" open data-editor-section="theme">
+              <summary>Tema e cores</summary>
+              <div class="editor-group-body">
+                <div class="preset-row"><select id="presetSelect"><option value="original">LOBI Original</option><option value="minimal">Minimal Dark</option><option value="neon">Neon Street</option></select><button id="applyPreset" class="btn btn-ghost" type="button">APLICAR</button></div>
+                <label>Fundo<div class="editor-color"><input id="themeBackground" type="color"><input type="text" data-mirror="#themeBackground" value="#050505" disabled></div></label>
+                <label>Texto<div class="editor-color"><input id="themeText" type="color"><input type="text" value="Texto principal" disabled></div></label>
+                <label>Cor principal<div class="editor-color"><input id="themePrimary" type="color"><input type="text" value="Verde / destaque" disabled></div></label>
+                <label>Cor secundária<div class="editor-color"><input id="themeSecondary" type="color"><input type="text" value="Vermelho / detalhe" disabled></div></label>
+                <label>Painéis<div class="editor-color"><input id="themePanel" type="color"><input type="text" value="Cards e painéis" disabled></div></label>
+                <label>Texto suave<div class="editor-color"><input id="themeMuted" type="color"><input type="text" value="Textos secundários" disabled></div></label>
+              </div>
+            </details>
+
+            <details class="editor-group" data-editor-section="header">
+              <summary>Cabeçalho</summary>
+              <div class="editor-group-body">
+                <label>Altura do cabeçalho<div class="editor-range"><input id="headerHeight" type="range" min="60" max="140" step="1"><output data-output-for="headerHeight"></output></div></label>
+                <label>Tamanho da logo<div class="editor-range"><input id="logoWidth" type="range" min="70" max="220" step="1"><output data-output-for="logoWidth"></output></div></label>
+              </div>
+            </details>
+
+            <details class="editor-group" open data-editor-section="hero">
+              <summary>Hero / capa principal</summary>
+              <div class="editor-group-body">
+                <label class="editor-inline"><input id="heroVisible" type="checkbox"> Mostrar Hero</label>
+                <label>Texto pequeno<input id="heroEyebrow" type="text"></label>
+                <label>Título<textarea id="heroTitle"></textarea><span class="editor-help">Use Enter para quebrar linha.</span></label>
+                <label>Texto em destaque<input id="heroAccent" type="text"></label>
+                <label>Descrição<textarea id="heroDescription"></textarea></label>
+                <div class="editor-grid-2"><label>Botão<input id="heroButtonText" type="text"></label><label>Link<input id="heroButtonLink" type="text"></label></div>
+                <label>Tamanho máximo do título<div class="editor-range"><input id="heroTitleMax" type="range" min="70" max="180" step="1"><output data-output-for="heroTitleMax"></output></div></label>
+                <label>Altura da capa<div class="editor-range"><input id="heroMinHeight" type="range" min="480" max="1100" step="10"><output data-output-for="heroMinHeight"></output></div></label>
+                <label>Imagem de fundo<input id="heroImageUrl" type="url" placeholder="Cole uma URL ou envie abaixo"></label>
+                <div class="editor-upload-row"><span class="editor-help">JPG, PNG ou WEBP até 8 MB</span><label class="editor-upload-label">ENVIAR<input id="heroImageFile" type="file" accept="image/jpeg,image/png,image/webp"></label></div>
+                <div class="editor-grid-2">
+                  <label>Posição X<div class="editor-range"><input id="heroImageX" type="range" min="0" max="100"><output data-output-for="heroImageX"></output></div></label>
+                  <label>Posição Y<div class="editor-range"><input id="heroImageY" type="range" min="0" max="100"><output data-output-for="heroImageY"></output></div></label>
+                </div>
+                <label>Escurecimento<div class="editor-range"><input id="heroOverlay" type="range" min="0" max="90"><output data-output-for="heroOverlay"></output></div></label>
+              </div>
+            </details>
+
+            <details class="editor-group" data-editor-section="promo">
+              <summary>Banner promocional</summary>
+              <div class="editor-group-body">
+                <label class="editor-inline"><input id="promoVisible" type="checkbox"> Mostrar banner</label>
+                <label>Título<input id="promoTitle" type="text"></label>
+                <label>Subtítulo<input id="promoSubtitle" type="text"></label>
+                <div class="editor-grid-2"><label>Botão<input id="promoButtonText" type="text"></label><label>Link<input id="promoButtonLink" type="text"></label></div>
+                <label>Imagem<input id="promoImageUrl" type="url" placeholder="Cole uma URL ou envie abaixo"></label>
+                <div class="editor-upload-row"><span class="editor-help">Imagem horizontal recomendada</span><label class="editor-upload-label">ENVIAR<input id="promoImageFile" type="file" accept="image/jpeg,image/png,image/webp"></label></div>
+                <label>Altura<div class="editor-range"><input id="promoHeight" type="range" min="220" max="800" step="10"><output data-output-for="promoHeight"></output></div></label>
+                <div class="editor-grid-2">
+                  <label>Posição X<div class="editor-range"><input id="promoImageX" type="range" min="0" max="100"><output data-output-for="promoImageX"></output></div></label>
+                  <label>Posição Y<div class="editor-range"><input id="promoImageY" type="range" min="0" max="100"><output data-output-for="promoImageY"></output></div></label>
+                </div>
+                <label>Escurecimento<div class="editor-range"><input id="promoOverlay" type="range" min="0" max="90"><output data-output-for="promoOverlay"></output></div></label>
+              </div>
+            </details>
+
+            <details class="editor-group" data-editor-section="marquee">
+              <summary>Faixa de texto</summary>
+              <div class="editor-group-body"><label class="editor-inline"><input id="marqueeVisible" type="checkbox"> Mostrar faixa</label><label>Texto<textarea id="marqueeText"></textarea></label></div>
+            </details>
+
+            <details class="editor-group" data-editor-section="products">
+              <summary>Produtos</summary>
+              <div class="editor-group-body">
+                <label class="editor-inline"><input id="productsVisible" type="checkbox"> Mostrar produtos</label>
+                <label>Texto pequeno<input id="productsEyebrow" type="text"></label>
+                <label>Título<input id="productsTitle" type="text"></label>
+                <label>Descrição<textarea id="productsDescription"></textarea></label>
+                <div class="editor-grid-2"><label>Colunas no computador<select id="columnsDesktop"><option>2</option><option>3</option><option>4</option><option>5</option></select></label><label>Colunas no celular<select id="columnsMobile"><option>1</option><option>2</option></select></label></div>
+                <label>Formato da foto<select id="imageRatio"><option value="4/5">4:5 Vertical</option><option value="3/4">3:4 Vertical</option><option value="1/1">1:1 Quadrada</option><option value="16/9">16:9 Horizontal</option></select></label>
+                <label>Espaço vertical da seção<div class="editor-range"><input id="sectionPadding" type="range" min="50" max="220" step="10"><output data-output-for="sectionPadding"></output></div></label>
+              </div>
+            </details>
+
+            <details class="editor-group" data-editor-section="manifesto">
+              <summary>Sobre a LOBI</summary>
+              <div class="editor-group-body">
+                <label class="editor-inline"><input id="manifestoVisible" type="checkbox"> Mostrar seção</label>
+                <label>Texto pequeno<input id="manifestoEyebrow" type="text"></label>
+                <label>Título<input id="manifestoTitle" type="text"></label>
+                <label>Destaque<input id="manifestoAccent" type="text"></label>
+                <label>Texto<textarea id="manifestoBody"></textarea></label>
+                <label>Tags<input id="manifestoTags" type="text"><span class="editor-help">Separe por vírgulas.</span></label>
+              </div>
+            </details>
+
+            <details class="editor-group" data-editor-section="footer">
+              <summary>Rodapé</summary>
+              <div class="editor-group-body">
+                <label class="editor-inline"><input id="footerVisible" type="checkbox"> Mostrar rodapé</label>
+                <label>Frase da marca<input id="footerTagline" type="text"></label>
+                <label>Instagram URL<input id="footerInstagram" type="url" placeholder="https://instagram.com/..."></label>
+                <label>WhatsApp URL<input id="footerWhatsapp" type="url" placeholder="https://wa.me/..."></label>
+                <label>Copyright<input id="footerCopyright" type="text"></label>
+              </div>
+            </details>
+
+            <details class="editor-group" open data-editor-section="order">
+              <summary>Ordem das seções</summary>
+              <div class="editor-group-body">
+                <p class="editor-help">Arraste os blocos ou use as setas.</p>
+                <div id="sectionOrderList" class="section-order-list"></div>
+              </div>
+            </details>
+          </aside>
+
+          <section class="editor-preview-panel">
+            <div class="preview-bar">
+              <div><p class="eyebrow">PRÉVIA AO VIVO</p><span class="editor-help">Clique em uma área da prévia para abrir suas opções.</span></div>
+              <div class="preview-devices">
+                <button class="preview-device active" type="button" data-device="desktop">Desktop</button>
+                <button class="preview-device" type="button" data-device="tablet">Tablet</button>
+                <button class="preview-device" type="button" data-device="mobile">Celular</button>
+              </div>
+            </div>
+            <div class="preview-stage">
+              <div class="preview-frame-wrap" id="previewFrameWrap"><iframe class="preview-frame" id="sitePreview" title="Prévia da loja"></iframe></div>
+            </div>
+          </section>
+        </div>
       </section>
     </main>
   </div>
@@ -146,6 +265,6 @@
   <div class="toast hidden" id="toast"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js"></script>\n  <script src="site-editor.js"></script>
 </body>
 </html>
