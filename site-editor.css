@@ -46,3 +46,15 @@
 .editor-group.visual-active>summary{color:var(--green)}
 .editor-focus-pulse{animation:lobiEditorPulse .9s ease}
 @keyframes lobiEditorPulse{0%{box-shadow:0 0 0 0 rgba(183,255,0,.0)}35%{box-shadow:0 0 0 2px rgba(183,255,0,.55)}100%{box-shadow:0 0 0 0 rgba(183,255,0,.0)}}
+
+.page-editor-shell.visual-only{grid-template-columns:minmax(0,1fr)}
+.page-editor-shell.visual-only .editor-controls{display:none}
+.page-editor-shell.visual-only .editor-preview-panel{position:static}
+.page-editor-shell.visual-only .preview-frame-wrap{height:880px}
+.preview-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.preview-actions .btn{padding:8px 10px;font-size:8px}
+.visual-mode-hint{color:#777;font-size:9px}
+@media(max-width:900px){
+  .preview-bar{align-items:flex-start;flex-direction:column}
+  .preview-actions{justify-content:flex-start;width:100%}
+}
