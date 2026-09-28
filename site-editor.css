@@ -194,3 +194,7 @@
   .preview-device{width:100%}
   .visual-selection-info{max-width:100%;white-space:normal}
 }
+
+#pageView>.topbar{margin-bottom:14px;padding:0 2px}
+#pageView>.topbar h1{font-size:clamp(30px,3vw,42px);letter-spacing:-2.2px}
+#pageView>.topbar .topbar-subtitle{margin-top:5px}
