@@ -340,6 +340,7 @@
     input.checked=false;
     if(config[section]&&typeof config[section]==="object")config[section].visible=false;
     updateFixedUndoButton();
+    renderOrderList();
     sendPreview();
     setStatus(label+" removido da prévia. Salve para publicar.","ok");
   }
@@ -352,6 +353,7 @@
     if(config[snapshot.section]&&typeof config[snapshot.section]==="object")config[snapshot.section].visible=true;
     fixedDeleteUndo=null;
     updateFixedUndoButton();
+    renderOrderList();
     sendPreview();
     setStatus((labels[snapshot.section]||"Item")+" restaurado.","ok");
     if(snapshot.saved){
@@ -365,14 +367,30 @@
     list.innerHTML="";
     config.order.forEach((key,index)=>{
       const item=document.createElement("div");
-      item.className="section-order-item";
+      const visibilityInput=document.querySelector(visibilityInputs[key]||"");
+      const isVisible=visibilityInput ? visibilityInput.checked : true;
+      item.className="section-order-item"+(isVisible?"":" section-hidden");
       item.draggable=true;
       item.dataset.key=key;
-      item.innerHTML='<span class="drag-handle">⋮⋮</span><span class="order-label">'+labels[key]+'</span><button class="order-move" type="button" data-dir="-1">↑</button><button class="order-move" type="button" data-dir="1">↓</button>';
+      item.innerHTML='<span class="drag-handle">⋮⋮</span><span class="order-label">'+labels[key]+(isVisible?"":' <small>OCULTO</small>')+'</span><button class="order-move" type="button" data-dir="-1" aria-label="Mover para cima">↑</button><button class="order-move" type="button" data-dir="1" aria-label="Mover para baixo">↓</button><button class="order-delete" type="button" aria-label="'+(isVisible?"Excluir":"Restaurar")+'" title="'+(isVisible?"Excluir":"Restaurar")+'">'+(isVisible?"×":"↶")+'</button>';
       item.addEventListener("dragstart",()=>item.classList.add("dragging"));
       item.addEventListener("dragend",()=>item.classList.remove("dragging"));
       item.addEventListener("dragover",e=>e.preventDefault());
-      item.addEventListener("contextmenu",e=>{e.preventDefault();confirmDeleteFixedSection(key);});
+      item.addEventListener("contextmenu",e=>{e.preventDefault();if(isVisible)confirmDeleteFixedSection(key);});
+      item.querySelector(".order-delete")?.addEventListener("click",()=>{
+        if(isVisible){
+          confirmDeleteFixedSection(key);
+        }else{
+          const input=document.querySelector(visibilityInputs[key]||"");
+          if(input)input.checked=true;
+          if(config[key]&&typeof config[key]==="object")config[key].visible=true;
+          if(fixedDeleteUndo?.section===key)fixedDeleteUndo=null;
+          updateFixedUndoButton();
+          renderOrderList();
+          sendPreview();
+          setStatus((labels[key]||"Item")+" restaurado na prévia. Salve para publicar.","ok");
+        }
+      });
       item.addEventListener("drop",e=>{
         e.preventDefault();
         const dragging=list.querySelector(".dragging"); if(!dragging||dragging===item)return;
