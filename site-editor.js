@@ -522,6 +522,13 @@
     $("#heroImageFile")?.addEventListener("change",e=>uploadEditorImage(e.target.files[0],"#heroImageUrl"));
     $("#promoImageFile")?.addEventListener("change",e=>uploadEditorImage(e.target.files[0],"#promoImageUrl"));
 
+    document.addEventListener("keydown",e=>{
+      if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"&&!pageView.classList.contains("hidden")){
+        e.preventDefault();
+        saveAllPage();
+      }
+    });
+
     document.querySelectorAll(".preview-device").forEach(btn=>btn.addEventListener("click",()=>{
       document.querySelectorAll(".preview-device").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
