@@ -15,7 +15,7 @@
       panel: "#0d0d0d",
       muted: "#9a9a9a"
     },
-    header: { height: 85, logoWidth: 115 },
+    header: { visible: true, height: 85, logoWidth: 115 },
     hero: {
       visible: true,
       eyebrow: "LOBI LIFESTYLE · DROP 01",
@@ -97,6 +97,7 @@
   let config = JSON.parse(JSON.stringify(defaults));
   let configRowId = null;
   let initialized = false;
+  let fixedDeleteUndo = null;
 
   function deepMerge(base, extra){
     if(!extra || typeof extra !== "object") return base;
@@ -135,7 +136,7 @@
     setVal("#themePrimary",config.theme.primary); setVal("#themeSecondary",config.theme.secondary);
     setVal("#themePanel",config.theme.panel); setVal("#themeMuted",config.theme.muted);
 
-    setVal("#headerHeight",config.header.height); setVal("#logoWidth",config.header.logoWidth);
+    setCheck("#headerVisible",config.header.visible !== false); setVal("#headerHeight",config.header.height); setVal("#logoWidth",config.header.logoWidth);
 
     setCheck("#heroVisible",config.hero.visible); setVal("#heroEyebrow",config.hero.eyebrow);
     setVal("#heroTitle",config.hero.title); setVal("#heroAccent",config.hero.accent);
@@ -175,7 +176,7 @@
       background:val("#themeBackground"), text:val("#themeText"), primary:val("#themePrimary"),
       secondary:val("#themeSecondary"), panel:val("#themePanel"), muted:val("#themeMuted")
     };
-    config.header={height:num("#headerHeight",85),logoWidth:num("#logoWidth",115)};
+    config.header={visible:checked("#headerVisible"),height:num("#headerHeight",85),logoWidth:num("#logoWidth",115)};
     config.hero={
       ...config.hero,
       visible:checked("#heroVisible"), eyebrow:val("#heroEyebrow"), title:val("#heroTitle"),
@@ -239,7 +240,7 @@
       configRowId=null;
       config=JSON.parse(JSON.stringify(defaults));
     }
-    fillForm();
+    fixedDeleteUndo=null; updateFixedUndoButton(); fillForm();
     setStatus(configRowId?"Configuração carregada.":"Usando configuração padrão.","ok");
   }
 
@@ -262,6 +263,7 @@
       console.error(result.error); setStatus(result.error.message||"Erro ao salvar.","error");
     }else{
       configRowId=result.data.id;
+      if(fixedDeleteUndo) fixedDeleteUndo.saved=true;
       setStatus("Site atualizado com sucesso.","ok");
       refreshPreview();
     }
@@ -298,7 +300,65 @@
     }
   }
 
-  const labels={hero:"Hero / capa",promo:"Banner",marquee:"Faixa de texto",products:"Produtos",manifesto:"Sobre a LOBI"};
+  const labels={header:"Cabeçalho",hero:"Hero / capa",promo:"Banner",marquee:"Faixa de texto",products:"Produtos",manifesto:"Sobre a LOBI",footer:"Rodapé"};
+  const visibilityInputs={header:"#headerVisible",hero:"#heroVisible",promo:"#promoVisible",marquee:"#marqueeVisible",products:"#productsVisible",manifesto:"#manifestoVisible",footer:"#footerVisible"};
+
+  function ensureFixedUndoButton(){
+    let btn=$("#undoFixedSectionDelete");
+    if(btn)return btn;
+    const toolbar=document.querySelector(".editor-toolbar");
+    if(!toolbar)return null;
+    btn=document.createElement("button");
+    btn.id="undoFixedSectionDelete";
+    btn.type="button";
+    btn.className="btn btn-ghost hidden";
+    btn.textContent="↶ DESFAZER EXCLUSÃO";
+    btn.addEventListener("click",undoFixedSectionDelete);
+    toolbar.appendChild(btn);
+    return btn;
+  }
+
+  function updateFixedUndoButton(){
+    const btn=ensureFixedUndoButton();
+    if(!btn)return;
+    if(fixedDeleteUndo){
+      btn.classList.remove("hidden");
+      btn.textContent="↶ DESFAZER: "+(labels[fixedDeleteUndo.section]||"ITEM");
+    }else{
+      btn.classList.add("hidden");
+      btn.textContent="↶ DESFAZER EXCLUSÃO";
+    }
+  }
+
+  function confirmDeleteFixedSection(section){
+    if(!visibilityInputs[section])return;
+    const input=document.querySelector(visibilityInputs[section]);
+    if(!input||!input.checked)return;
+    const label=labels[section]||"este item";
+    if(!confirm('Excluir "'+label+'" da Página?\n\nVocê poderá desfazer depois.'))return;
+    fixedDeleteUndo={section:section,saved:false};
+    input.checked=false;
+    if(config[section]&&typeof config[section]==="object")config[section].visible=false;
+    updateFixedUndoButton();
+    sendPreview();
+    setStatus(label+" removido da prévia. Salve para publicar.","ok");
+  }
+
+  async function undoFixedSectionDelete(){
+    if(!fixedDeleteUndo)return;
+    const snapshot=fixedDeleteUndo;
+    const input=document.querySelector(visibilityInputs[snapshot.section]);
+    if(input)input.checked=true;
+    if(config[snapshot.section]&&typeof config[snapshot.section]==="object")config[snapshot.section].visible=true;
+    fixedDeleteUndo=null;
+    updateFixedUndoButton();
+    sendPreview();
+    setStatus((labels[snapshot.section]||"Item")+" restaurado.","ok");
+    if(snapshot.saved){
+      await saveConfig();
+      setStatus("Exclusão desfeita e sincronizada com o site principal.","ok");
+    }
+  }
 
   function renderOrderList(){
     const list=$("#sectionOrderList"); if(!list) return;
@@ -312,6 +372,7 @@
       item.addEventListener("dragstart",()=>item.classList.add("dragging"));
       item.addEventListener("dragend",()=>item.classList.remove("dragging"));
       item.addEventListener("dragover",e=>e.preventDefault());
+      item.addEventListener("contextmenu",e=>{e.preventDefault();confirmDeleteFixedSection(key);});
       item.addEventListener("drop",e=>{
         e.preventDefault();
         const dragging=list.querySelector(".dragging"); if(!dragging||dragging===item)return;
@@ -340,6 +401,7 @@
     if(initialized) return;
     initialized=true;
     const frame=$("#sitePreview"); if(frame) frame.src=STORE_PREVIEW_URL;
+    ensureFixedUndoButton();
 
     pageView.querySelectorAll("input,textarea,select").forEach(input=>{
       if(input.id==="presetSelect"||input.type==="file")return;
@@ -367,6 +429,7 @@
     window.addEventListener("message",e=>{
       if(e.data?.type==="lobi-editor-select") focusSection(e.data.section);
       if(e.data?.type==="lobi-preview-ready") sendPreview();
+      if(e.data?.type==="lobi-editor-context-delete-fixed") confirmDeleteFixedSection(e.data.section);
     });
 
     loadConfig();
