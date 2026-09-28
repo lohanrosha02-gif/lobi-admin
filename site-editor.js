@@ -408,6 +408,33 @@
     });
   }
 
+  function setVisualMode(visual=true){
+    const shell=document.querySelector(".page-editor-shell");
+    if(!shell)return;
+    shell.classList.toggle("visual-only",visual);
+    const btn=$("#toggleAdvancedEditor");
+    if(btn)btn.textContent=visual?"AJUSTES AVANÇADOS":"VOLTAR À PRÉVIA";
+  }
+
+  function applyInlineChange(section,field,value){
+    const input=document.getElementById(field);
+    if(!input)return;
+    input.value=value;
+    input.dispatchEvent(new Event("input",{bubbles:true}));
+    setVisualSelection(section,field);
+    setStatus("Alteração feita diretamente na prévia. Salve para publicar.","ok");
+  }
+
+  function moveFixedRelative(section,dir){
+    const i=config.order.indexOf(section);
+    const to=i+Number(dir);
+    if(i<0||to<0||to>=config.order.length)return;
+    [config.order[i],config.order[to]]=[config.order[to],config.order[i]];
+    renderOrderList();
+    sendPreview();
+    setStatus((labels[section]||section)+" movido na prévia. Salve para publicar.","ok");
+  }
+
   function setVisualSelection(section,field=""){
     document.querySelectorAll(".editor-group.visual-active").forEach(el=>el.classList.remove("visual-active"));
     const panel=document.querySelector('[data-editor-section="'+section+'"]');
@@ -470,6 +497,7 @@
     initialized=true;
     const frame=$("#sitePreview"); if(frame) frame.src=STORE_PREVIEW_URL;
     ensureFixedUndoButton();
+    setVisualMode(true);
 
     pageView.querySelectorAll("input,textarea,select").forEach(input=>{
       if(input.id==="presetSelect"||input.type==="file")return;
@@ -480,6 +508,11 @@
 
     $("#saveSiteConfig")?.addEventListener("click",saveConfig);
     $("#saveAllPage")?.addEventListener("click",saveAllPage);
+    $("#saveAllPageQuick")?.addEventListener("click",saveAllPage);
+    $("#toggleAdvancedEditor")?.addEventListener("click",()=>{
+      const shell=document.querySelector(".page-editor-shell");
+      setVisualMode(!shell?.classList.contains("visual-only"));
+    });
     $("#reloadSiteConfig")?.addEventListener("click",loadConfig);
     $("#resetSiteConfig")?.addEventListener("click",()=>{
       if(!confirm("Restaurar o visual padrão da LOBI na prévia?"))return;
@@ -498,7 +531,13 @@
     window.addEventListener("message",e=>{
       if(e.data?.type==="lobi-editor-select") focusSection(e.data.section);
       if(e.data?.type==="lobi-editor-focus-field") focusEditorField(e.data.section,e.data.field);
+      if(e.data?.type==="lobi-editor-inline-change") applyInlineChange(e.data.section,e.data.field,e.data.value??"");
       if(e.data?.type==="lobi-editor-reorder-fixed") reorderFixedFromPreview(e.data.from,e.data.to,!!e.data.after);
+      if(e.data?.type==="lobi-editor-move-fixed") moveFixedRelative(e.data.section,e.data.dir);
+      if(e.data?.type==="lobi-editor-quick-image"){
+        if(e.data.section==="hero")$("#heroImageFile")?.click();
+        if(e.data.section==="promo")$("#promoImageFile")?.click();
+      }
       if(e.data?.type==="lobi-preview-ready") sendPreview();
       if(e.data?.type==="lobi-editor-context-delete-fixed") confirmDeleteFixedSection(e.data.section);
     });
