@@ -33,7 +33,10 @@
     <aside class="sidebar" id="sidebar">
       <div>
         <div class="brand-lockup sidebar-brand"><div class="brand-mark">LOBI<span>!</span></div><small>ADMIN</small></div>
-        <nav class="side-nav"><button class="nav-item active" type="button">Produtos</button></nav>
+        <nav class="side-nav">
+          <button class="nav-item active" id="productsNavButton" type="button" data-view="products">Produtos</button>
+          <button class="nav-item" id="pageNavButton" type="button" data-view="page">Página</button>
+        </nav>
       </div>
       <div class="sidebar-bottom">
         <p id="adminEmail" class="admin-email"></p>
@@ -42,6 +45,7 @@
     </aside>
 
     <main class="main">
+      <section class="admin-view" id="productsView">
       <header class="topbar">
         <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PRODUTOS</h1></div>
         <div class="topbar-actions">
@@ -70,6 +74,31 @@
             <tbody id="productsTableBody"></tbody>
           </table>
         </div>
+      </section>
+      </section>
+
+      <section class="admin-view hidden" id="pageView">
+        <header class="topbar">
+          <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PÁGINA</h1></div>
+          <div class="topbar-actions">
+            <button class="mobile-menu" id="mobileMenuButtonPage" type="button" aria-label="Abrir menu">☰</button>
+          </div>
+        </header>
+
+        <section class="page-placeholder">
+          <p class="eyebrow">EDITOR DA LOJA</p>
+          <h2>PERSONALIZAÇÃO DA PÁGINA</h2>
+          <p>
+            Aqui ficará o editor visual da LOBI para alterar banners, imagens, textos,
+            cores, tamanhos, temas e organização das seções sem mexer no código.
+          </p>
+          <div class="page-feature-grid">
+            <div><strong>BANNERS</strong><span>Imagens, posição e tamanho</span></div>
+            <div><strong>CORES E TEMA</strong><span>Paleta, fundos e botões</span></div>
+            <div><strong>LAYOUT</strong><span>Ordem e tamanho das seções</span></div>
+            <div><strong>TEXTOS</strong><span>Títulos, chamadas e conteúdo</span></div>
+          </div>
+        </section>
       </section>
     </main>
   </div>
