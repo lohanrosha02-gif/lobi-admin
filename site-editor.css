@@ -198,3 +198,31 @@
 #pageView>.topbar{margin-bottom:14px;padding:0 2px}
 #pageView>.topbar h1{font-size:clamp(30px,3vw,42px);letter-spacing:-2.2px}
 #pageView>.topbar .topbar-subtitle{margin-top:5px}
+
+.quick-theme{
+  display:grid;
+  grid-template-columns:minmax(170px,240px) auto;
+  gap:6px;
+  align-items:center;
+}
+.quick-theme select{
+  min-height:36px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#070708;
+  color:#ddd;
+  padding:7px 10px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.quick-theme select:focus{border-color:rgba(183,255,0,.55)}
+.quick-theme optgroup{color:#aaa;background:#09090a}
+.quick-theme option{color:#ddd;background:#09090a}
+@media(max-width:900px){
+  .quick-theme{width:100%;grid-template-columns:1fr auto}
+}
+@media(max-width:520px){
+  .quick-theme{grid-template-columns:1fr}
+  .quick-theme .btn{width:100%}
+}
