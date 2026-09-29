@@ -69,7 +69,7 @@
       visible: true,
       tagline: "Streetwear masculino para quem tem presença.",
       instagram: "",
-      whatsapp: "",
+      whatsapp: "https://wa.me/5583993149486",
       copyright: "© 2026 LOBI LIFESTYLE"
     },
     order: ["hero","promo","marquee","products","manifesto"]
