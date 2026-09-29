@@ -75,6 +75,26 @@
     order: ["hero","promo","marquee","products","manifesto"]
   };
 
+  function campaignPreset({
+    background="#050505",text="#f4f4f1",primary="#b7ff00",secondary="#ef2b20",panel="#0d0d0d",muted="#9a9a9a",
+    eyebrow="LOBI LIFESTYLE",title="NÃO É SÓ\\nROUPA.",accent="É PRESENÇA.",
+    description="Streetwear masculino selecionado para quem carrega identidade no jeito de vestir.",
+    buttonText="VER PRODUTOS",marquee="LOBI LIFESTYLE ✦ STREETWEAR MASCULINO ✦ PRESENÇA",
+    promoTitle="LOBI LIFESTYLE",promoSubtitle="ESTILO, ATITUDE E IDENTIDADE.",promoButton="VER PRODUTOS",
+    productsEyebrow="SELEÇÃO LOBI",productsTitle="ESCOLHA SUA PEÇA"
+  }={}){
+    return {
+      ...JSON.parse(JSON.stringify(defaults)),
+      theme:{background,text,primary,secondary,panel,muted},
+      hero:{...defaults.hero,visible:true,eyebrow,title,accent,description,buttonText,buttonLink:"#produtos",titleMax:125,overlay:48},
+      marquee:{visible:true,text:marquee},
+      products:{...defaults.products,visible:true,eyebrow:productsEyebrow,title:productsTitle},
+      promo:{...defaults.promo,visible:true,title:promoTitle,subtitle:promoSubtitle,buttonText:promoButton,buttonLink:"#produtos",height:380,overlay:48},
+      manifesto:{...defaults.manifesto},
+      footer:{...defaults.footer}
+    };
+  }
+
   const presets = {
     original: JSON.parse(JSON.stringify(defaults)),
     minimal: {
@@ -87,7 +107,201 @@
       ...JSON.parse(JSON.stringify(defaults)),
       theme:{background:"#020202",text:"#ffffff",primary:"#b7ff00",secondary:"#ff3b1f",panel:"#0a0a0a",muted:"#a8a8a8"},
       hero:{...defaults.hero,titleMax:132,overlay:38}
-    }
+    },
+
+    anoNovo: campaignPreset({
+      background:"#050505",text:"#fffdf5",primary:"#d6b45a",secondary:"#f4f4f1",panel:"#10100e",muted:"#aaa38e",
+      eyebrow:"LOBI · ANO NOVO",title:"ANO NOVO.",accent:"PRESENÇA NOVA.",
+      description:"Comece o ano vestindo o que representa você.",
+      buttonText:"COMEÇAR O ANO",marquee:"ANO NOVO ✦ NOVA FASE ✦ MESMA IDENTIDADE ✦ LOBI",
+      promoTitle:"NOVO ANO. NOVO DROP.",promoSubtitle:"UMA NOVA FASE PARA O SEU ESTILO.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"COMECE COM PRESENÇA",productsTitle:"SELEÇÃO DE ANO NOVO"
+    }),
+    carnaval: campaignPreset({
+      background:"#050505",text:"#ffffff",primary:"#b7ff00",secondary:"#ff2bd6",panel:"#0d0d0f",muted:"#a7a7aa",
+      eyebrow:"LOBI · CARNAVAL",title:"RUA. COR.",accent:"PRESENÇA.",
+      description:"Seu estilo acompanha o ritmo. Vista presença do começo ao fim.",
+      buttonText:"VER O DROP",marquee:"CARNAVAL LOBI ✦ RUA ✦ COR ✦ ATITUDE ✦ PRESENÇA",
+      promoTitle:"NO SEU RITMO.",promoSubtitle:"STREETWEAR PARA FAZER PRESENÇA ONDE VOCÊ FOR.",promoButton:"VER PEÇAS",
+      productsEyebrow:"CARNAVAL LOBI",productsTitle:"ESTILO EM MOVIMENTO"
+    }),
+    pascoa: campaignPreset({
+      background:"#110c09",text:"#fff4df",primary:"#d9a35f",secondary:"#9d6cff",panel:"#1a120e",muted:"#b9a995",
+      eyebrow:"LOBI · PÁSCOA",title:"SEU ESTILO",accent:"MERECE PRESENTE.",
+      description:"Uma seleção com identidade para transformar o presente em presença.",
+      buttonText:"VER PRESENTES",marquee:"PÁSCOA LOBI ✦ PRESENTE COM IDENTIDADE ✦ PRESENÇA",
+      promoTitle:"PRESENTE COM PRESENÇA.",promoSubtitle:"ESCOLHA ALGO QUE REALMENTE REPRESENTA.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"PÁSCOA LOBI",productsTitle:"ESCOLHA O PRESENTE"
+    }),
+    diaMaes: campaignPreset({
+      background:"#10090c",text:"#fff4f7",primary:"#e9a7b8",secondary:"#9e2f50",panel:"#180d12",muted:"#bd9da6",
+      eyebrow:"LOBI · DIA DAS MÃES",title:"PRESENÇA QUE",accent:"MARCA PRA SEMPRE.",
+      description:"Para celebrar quem transforma cuidado em identidade todos os dias.",
+      buttonText:"VER SELEÇÃO",marquee:"DIA DAS MÃES ✦ PRESENÇA ✦ CARINHO ✦ IDENTIDADE",
+      promoTitle:"PARA QUEM SEMPRE ESTÁ PRESENTE.",promoSubtitle:"UM GESTO COM IDENTIDADE PARA O DIA DAS MÃES.",promoButton:"VER IDEIAS",
+      productsEyebrow:"DIA DAS MÃES",productsTitle:"PRESENTES COM SIGNIFICADO"
+    }),
+    diaNamorados: campaignPreset({
+      background:"#090506",text:"#fff5f5",primary:"#ff4d5f",secondary:"#ff8ca0",panel:"#14090c",muted:"#b89ba0",
+      eyebrow:"LOBI · DIA DOS NAMORADOS",title:"DOIS ESTILOS.",accent:"UMA PRESENÇA.",
+      description:"Presenteie com algo que combina com a identidade de quem está ao seu lado.",
+      buttonText:"VER PRESENTES",marquee:"DIA DOS NAMORADOS ✦ ESTILO ✦ CONEXÃO ✦ PRESENÇA",
+      promoTitle:"PRESENTE QUE TEM IDENTIDADE.",promoSubtitle:"PARA QUEM FAZ PARTE DA SUA HISTÓRIA.",promoButton:"ESCOLHER PRESENTE",
+      productsEyebrow:"DIA DOS NAMORADOS",productsTitle:"PARA PRESENTEAR"
+    }),
+    saoJoao: campaignPreset({
+      background:"#070b12",text:"#fff8e8",primary:"#ffbf3f",secondary:"#ef5a29",panel:"#101723",muted:"#b0aa9c",
+      eyebrow:"LOBI · SÃO JOÃO",title:"ARRAIÁ NA RUA.",accent:"ESTILO ACESO.",
+      description:"Do São João à cidade, presença é o que mantém o look vivo.",
+      buttonText:"VER SELEÇÃO",marquee:"SÃO JOÃO LOBI ✦ FOGUEIRA ✦ RUA ✦ ESTILO ✦ PRESENÇA",
+      promoTitle:"SÃO JOÃO COM IDENTIDADE.",promoSubtitle:"STREETWEAR PARA ENTRAR NO CLIMA SEM SAIR DO SEU ESTILO.",promoButton:"VER PEÇAS",
+      productsEyebrow:"TEMPORADA JUNINA",productsTitle:"PRESENÇA NO ARRAIÁ"
+    }),
+    diaPais: campaignPreset({
+      background:"#070a0f",text:"#f3f6fa",primary:"#d5b46a",secondary:"#315a8a",panel:"#0e141d",muted:"#98a3af",
+      eyebrow:"LOBI · DIA DOS PAIS",title:"PRESENÇA VEM",accent:"DE REFERÊNCIA.",
+      description:"Para quem ensinou que estilo também é atitude.",
+      buttonText:"VER PRESENTES",marquee:"DIA DOS PAIS ✦ REFERÊNCIA ✦ ATITUDE ✦ PRESENÇA",
+      promoTitle:"UM PRESENTE À ALTURA.",promoSubtitle:"ESCOLHA UMA PEÇA COM IDENTIDADE PARA O DIA DOS PAIS.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"DIA DOS PAIS",productsTitle:"PRESENTES COM PRESENÇA"
+    }),
+    diaHomem: campaignPreset({
+      background:"#040404",text:"#f5f5f2",primary:"#b7ff00",secondary:"#8b8b8b",panel:"#0d0d0d",muted:"#999999",
+      eyebrow:"LOBI · DIA DO HOMEM",title:"SEU ESTILO.",accent:"SUA PRESENÇA.",
+      description:"Identidade não se explica. Se veste.",
+      buttonText:"VER O DROP",marquee:"DIA DO HOMEM ✦ ESTILO ✦ ATITUDE ✦ IDENTIDADE ✦ LOBI",
+      promoTitle:"PRESENÇA É IDENTIDADE.",promoSubtitle:"UMA SELEÇÃO PARA QUEM SABE O QUE REPRESENTA.",promoButton:"VER PEÇAS",
+      productsEyebrow:"DIA DO HOMEM",productsTitle:"STREETWEAR COM IDENTIDADE"
+    }),
+    halloween: campaignPreset({
+      background:"#030303",text:"#fff7ef",primary:"#ff7417",secondary:"#7e3cff",panel:"#0d0911",muted:"#a99baa",
+      eyebrow:"LOBI · HALLOWEEN",title:"DARK MODE.",accent:"PRESENÇA LIGADA.",
+      description:"Visual escuro, atitude acesa. A rua continua sendo o cenário.",
+      buttonText:"ENTRAR NO DROP",marquee:"HALLOWEEN LOBI ✦ DARK MODE ✦ STREETWEAR ✦ PRESENÇA",
+      promoTitle:"NIGHT DROP.",promoSubtitle:"UMA SELEÇÃO ESCURA, URBANA E SEM DISFARCE.",promoButton:"VER O DROP",
+      productsEyebrow:"HALLOWEEN",productsTitle:"DARK SELECTION"
+    }),
+    natal: campaignPreset({
+      background:"#07100b",text:"#fffaf0",primary:"#d6b45a",secondary:"#c62333",panel:"#0d1811",muted:"#a8aa9e",
+      eyebrow:"LOBI · NATAL",title:"PRESENTE COM",accent:"IDENTIDADE.",
+      description:"Neste Natal, escolha algo que tenha presença antes mesmo de abrir a embalagem.",
+      buttonText:"VER PRESENTES",marquee:"NATAL LOBI ✦ PRESENTE COM IDENTIDADE ✦ PRESENÇA",
+      promoTitle:"NATAL COM PRESENÇA.",promoSubtitle:"PEÇAS PARA PRESENTEAR SEM CAIR NO ÓBVIO.",promoButton:"VER PRESENTES",
+      productsEyebrow:"NATAL LOBI",productsTitle:"GUIA DE PRESENTES"
+    }),
+
+    diaConsumidor: campaignPreset({
+      background:"#05070d",text:"#f7f9ff",primary:"#69a7ff",secondary:"#b7ff00",panel:"#0b101a",muted:"#98a4b8",
+      eyebrow:"LOBI · DIA DO CONSUMIDOR",title:"QUEM ESCOLHE",accent:"MERECE MAIS.",
+      description:"Uma campanha feita para quem escolhe a LOBI para vestir a própria identidade.",
+      buttonText:"VER SELEÇÃO",marquee:"DIA DO CONSUMIDOR ✦ VOCÊ ESCOLHE ✦ VOCÊ FAZ A LOBI",
+      promoTitle:"DIA DO CONSUMIDOR LOBI.",promoSubtitle:"CONDIÇÕES ESPECIAIS PODEM SER CONFIGURADAS POR VOCÊ.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"DIA DO CONSUMIDOR",productsTitle:"SELEÇÃO ESPECIAL"
+    }),
+    mesConsumidor: campaignPreset({
+      background:"#05070b",text:"#f5f8ff",primary:"#79b8ff",secondary:"#b7ff00",panel:"#0b1118",muted:"#93a0af",
+      eyebrow:"LOBI · MÊS DO CONSUMIDOR",title:"O MÊS É",accent:"DE QUEM ESCOLHE.",
+      description:"Mais espaço para descobrir peças que combinam com a sua identidade.",
+      buttonText:"EXPLORAR",marquee:"MÊS DO CONSUMIDOR ✦ LOBI ✦ ESTILO ✦ ESCOLHA ✦ PRESENÇA",
+      promoTitle:"MÊS DO CONSUMIDOR.",promoSubtitle:"UMA CAMPANHA INTEIRA PARA QUEM FAZ PARTE DA LOBI.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"MÊS DO CONSUMIDOR",productsTitle:"DESTAQUES DA CAMPANHA"
+    }),
+    semanaCliente: campaignPreset({
+      background:"#050505",text:"#f8f8f4",primary:"#b7ff00",secondary:"#f4c542",panel:"#0d0d0d",muted:"#99998f",
+      eyebrow:"LOBI · SEMANA DO CLIENTE",title:"VOCÊ FAZ",accent:"PARTE DA PRESENÇA.",
+      description:"Uma semana pensada para quem acompanha, escolhe e veste LOBI.",
+      buttonText:"VER A CAMPANHA",marquee:"SEMANA DO CLIENTE ✦ VOCÊ FAZ PARTE ✦ LOBI",
+      promoTitle:"ESSA SEMANA É SUA.",promoSubtitle:"UMA SELEÇÃO ESPECIAL PARA QUEM FAZ A LOBI ACONTECER.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"SEMANA DO CLIENTE",productsTitle:"PARA QUEM É LOBI"
+    }),
+    diaCliente: campaignPreset({
+      background:"#050505",text:"#fafaf7",primary:"#f4c542",secondary:"#b7ff00",panel:"#10100d",muted:"#a2a094",
+      eyebrow:"LOBI · DIA DO CLIENTE",title:"VOCÊ FAZ PARTE.",accent:"DA NOSSA HISTÓRIA.",
+      description:"Hoje a presença é de quem constrói a LOBI junto com a gente.",
+      buttonText:"VER SELEÇÃO",marquee:"DIA DO CLIENTE ✦ OBRIGADO POR FAZER PARTE ✦ LOBI",
+      promoTitle:"DIA DE QUEM FAZ A LOBI.",promoSubtitle:"NOSSA IDENTIDADE TAMBÉM É FEITA POR QUEM ESCOLHE ESTAR AQUI.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"DIA DO CLIENTE",productsTitle:"SELEÇÃO LOBI"
+    }),
+    onzeOnze: campaignPreset({
+      background:"#050505",text:"#ffffff",primary:"#ff3b30",secondary:"#f7d51d",panel:"#100b0a",muted:"#a79e9b",
+      eyebrow:"LOBI · 11.11",title:"11.11",accent:"HORA DE ESCOLHER.",
+      description:"Uma data para colocar na mira as peças que faltavam no seu estilo.",
+      buttonText:"VER 11.11",marquee:"11.11 LOBI ✦ CAMPANHA ESPECIAL ✦ STREETWEAR ✦ PRESENÇA",
+      promoTitle:"11.11 LOBI.",promoSubtitle:"SUA LISTA DE DESEJOS ENTRA EM CENA.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"11.11",productsTitle:"DESTAQUES DO DIA"
+    }),
+    esquentaBlack: campaignPreset({
+      background:"#020202",text:"#f7f7f4",primary:"#b7ff00",secondary:"#6d6d6d",panel:"#090909",muted:"#8d8d8d",
+      eyebrow:"LOBI · ESQUENTA BLACK",title:"ANTES DA BLACK.",accent:"JÁ TEM PRESENÇA.",
+      description:"O aquecimento começou. Prepare sua seleção antes da campanha principal.",
+      buttonText:"VER O ESQUENTA",marquee:"ESQUENTA BLACK ✦ LOBI ✦ PREPARE SUA LISTA ✦ PRESENÇA",
+      promoTitle:"ESQUENTA BLACK.",promoSubtitle:"COMECE A ESCOLHER ANTES DA BLACK FRIDAY.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"ESQUENTA BLACK",productsTitle:"PREPARE SUA LISTA"
+    }),
+    blackFriday: campaignPreset({
+      background:"#000000",text:"#ffffff",primary:"#b7ff00",secondary:"#ef2b20",panel:"#080808",muted:"#8c8c8c",
+      eyebrow:"LOBI · BLACK FRIDAY",title:"BLACK FRIDAY.",accent:"SEM PERDER IDENTIDADE.",
+      description:"A campanha mais esperada do ano com a estética e a presença da LOBI.",
+      buttonText:"ENTRAR NA BLACK",marquee:"BLACK FRIDAY LOBI ✦ PRESENÇA ✦ STREETWEAR ✦ CAMPANHA ESPECIAL",
+      promoTitle:"BLACK FRIDAY LOBI.",promoSubtitle:"DEFINA SUAS OFERTAS NO CATÁLOGO E DEIXE O VISUAL PRONTO AQUI.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"BLACK FRIDAY",productsTitle:"BLACK SELECTION"
+    }),
+    cyberMonday: campaignPreset({
+      background:"#03060b",text:"#f3fbff",primary:"#27d7ff",secondary:"#7565ff",panel:"#07111a",muted:"#8fa7b1",
+      eyebrow:"LOBI · CYBER MONDAY",title:"CYBER MONDAY.",accent:"STREET NO ONLINE.",
+      description:"A rua encontra o digital em uma campanha feita para comprar online.",
+      buttonText:"VER A CYBER",marquee:"CYBER MONDAY ✦ ONLINE DROP ✦ LOBI ✦ STREETWEAR",
+      promoTitle:"CYBER MONDAY LOBI.",promoSubtitle:"CAMPANHA DIGITAL COM IDENTIDADE DE RUA.",promoButton:"COMPRAR ONLINE",
+      productsEyebrow:"CYBER MONDAY",productsTitle:"ONLINE SELECTION"
+    }),
+    liquidacao: campaignPreset({
+      background:"#0a0303",text:"#fff7f2",primary:"#ff4635",secondary:"#ffd43b",panel:"#160808",muted:"#b49c94",
+      eyebrow:"LOBI · SALE",title:"SALE LOBI.",accent:"ÚLTIMAS OPORTUNIDADES.",
+      description:"Uma seleção para abrir espaço para o próximo movimento da LOBI.",
+      buttonText:"VER A SALE",marquee:"SALE LOBI ✦ ÚLTIMAS OPORTUNIDADES ✦ ENQUANTO DURAR",
+      promoTitle:"SALE.",promoSubtitle:"USE ESTE TEMA COM OS PREÇOS E CONDIÇÕES REAIS CADASTRADOS NOS PRODUTOS.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"SALE LOBI",productsTitle:"ÚLTIMAS PEÇAS"
+    }),
+    freteGratis: campaignPreset({
+      background:"#04090b",text:"#f4fbff",primary:"#49d3ff",secondary:"#b7ff00",panel:"#081317",muted:"#91a7ae",
+      eyebrow:"LOBI · FRETE GRÁTIS",title:"SEU LOOK",accent:"VAI MAIS LONGE.",
+      description:"Tema pronto para campanhas de frete grátis. Ative somente quando a condição estiver válida.",
+      buttonText:"VER PRODUTOS",marquee:"FRETE GRÁTIS ✦ LOBI ✦ CONSULTE AS CONDIÇÕES DA CAMPANHA",
+      promoTitle:"FRETE GRÁTIS.",promoSubtitle:"CONFIGURE E DIVULGUE SOMENTE AS CONDIÇÕES REAIS DA SUA CAMPANHA.",promoButton:"VER PEÇAS",
+      productsEyebrow:"CAMPANHA DE FRETE",productsTitle:"ESCOLHA SEU LOOK"
+    }),
+    aniversarioLobi: campaignPreset({
+      background:"#050406",text:"#fffaff",primary:"#b7ff00",secondary:"#9e56ff",panel:"#100d13",muted:"#a59cab",
+      eyebrow:"LOBI · ANIVERSÁRIO",title:"LOBI EM FESTA.",accent:"VOCÊ FAZ PARTE.",
+      description:"Mais um capítulo da LOBI. A identidade cresce com quem veste a marca.",
+      buttonText:"COMEMORAR COM A LOBI",marquee:"ANIVERSÁRIO LOBI ✦ MAIS UM CAPÍTULO ✦ PRESENÇA ✦ IDENTIDADE",
+      promoTitle:"ANIVERSÁRIO LOBI.",promoSubtitle:"UMA CAMPANHA PARA CELEBRAR QUEM FAZ PARTE DESSA HISTÓRIA.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"ANIVERSÁRIO LOBI",productsTitle:"EDIÇÃO DE COMEMORAÇÃO"
+    }),
+    dropEspecial: campaignPreset({
+      background:"#030303",text:"#ffffff",primary:"#b7ff00",secondary:"#ef2b20",panel:"#0a0a0a",muted:"#999999",
+      eyebrow:"LOBI · DROP ESPECIAL",title:"NOVO DROP.",accent:"NOVA PRESENÇA.",
+      description:"Uma nova seleção entra em cena. Mesma identidade, novo movimento.",
+      buttonText:"VER O DROP",marquee:"NOVO DROP ✦ LOBI LIFESTYLE ✦ QUANTIDADES LIMITADAS ✦ PRESENÇA",
+      promoTitle:"DROP ESPECIAL.",promoSubtitle:"PEÇAS SELECIONADAS PARA O PRÓXIMO MOVIMENTO.",promoButton:"EXPLORAR DROP",
+      productsEyebrow:"DROP ESPECIAL",productsTitle:"NOVAS PEÇAS"
+    }),
+    verao: campaignPreset({
+      background:"#07100f",text:"#f7fff8",primary:"#dfff3f",secondary:"#ff7043",panel:"#0c1715",muted:"#9eaaa4",
+      eyebrow:"LOBI · VERÃO",title:"CALOR NA RUA.",accent:"PRESENÇA LEVE.",
+      description:"Peças para manter identidade, conforto e presença nos dias mais quentes.",
+      buttonText:"VER VERÃO",marquee:"VERÃO LOBI ✦ LEVEZA ✦ RUA ✦ ESTILO ✦ PRESENÇA",
+      promoTitle:"VERÃO NA LOBI.",promoSubtitle:"UMA SELEÇÃO MAIS LEVE PARA CONTINUAR MARCANDO PRESENÇA.",promoButton:"VER PEÇAS",
+      productsEyebrow:"TEMPORADA DE VERÃO",productsTitle:"VERÃO LOBI"
+    }),
+    inverno: campaignPreset({
+      background:"#05070a",text:"#f1f5f7",primary:"#b9d2df",secondary:"#62788d",panel:"#0b1015",muted:"#8d9ba4",
+      eyebrow:"LOBI · INVERNO",title:"CAMADAS DE",accent:"IDENTIDADE.",
+      description:"Quando a temperatura cai, o estilo ganha novas camadas.",
+      buttonText:"VER INVERNO",marquee:"INVERNO LOBI ✦ CAMADAS ✦ TEXTURA ✦ STREETWEAR ✦ PRESENÇA",
+      promoTitle:"INVERNO COM PRESENÇA.",promoSubtitle:"CAMADAS, TEXTURAS E IDENTIDADE PARA OS DIAS FRIOS.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"TEMPORADA DE INVERNO",productsTitle:"INVERNO LOBI"
+    })
   };
 
   const $ = s => document.querySelector(s);
@@ -276,8 +490,10 @@
     config=JSON.parse(JSON.stringify(presets[name]));
     config.hero.imageUrl=keepImages.hero||config.hero.imageUrl;
     config.promo.imageUrl=keepImages.promo||config.promo.imageUrl;
+    setVal("#presetSelect",name);
+    setVal("#quickPresetSelect",name);
     fillForm();
-    setStatus("Tema aplicado na prévia. Clique em salvar para publicar.");
+    setStatus("Tema completo aplicado na prévia: cores, textos, slogan, faixa e banner. Salve para publicar.","ok");
   }
 
   async function uploadEditorImage(file,targetInput){
@@ -519,6 +735,9 @@
       config=JSON.parse(JSON.stringify(defaults));fillForm();setStatus("Padrão restaurado na prévia. Salve para publicar.");
     });
     $("#applyPreset")?.addEventListener("click",()=>applyPreset(val("#presetSelect")));
+    $("#quickApplyPreset")?.addEventListener("click",()=>applyPreset(val("#quickPresetSelect")));
+    $("#presetSelect")?.addEventListener("change",()=>setVal("#quickPresetSelect",val("#presetSelect")));
+    $("#quickPresetSelect")?.addEventListener("change",()=>setVal("#presetSelect",val("#quickPresetSelect")));
     $("#heroImageFile")?.addEventListener("change",e=>uploadEditorImage(e.target.files[0],"#heroImageUrl"));
     $("#promoImageFile")?.addEventListener("change",e=>uploadEditorImage(e.target.files[0],"#promoImageUrl"));
 
