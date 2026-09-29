@@ -7,6 +7,7 @@
 
   const defaults = {
     version: 1,
+    campaign: { key: "original", label: "LOBI Original", icon: "spark", important: false, useHeroArt: false, usePromoArt: false, accent1: "#b7ff00", accent2: "#ef2b20" },
     theme: {
       background: "#050505",
       text: "#f4f4f1",
@@ -352,6 +353,58 @@
     })
   };
 
+  const campaignMeta = {
+    anoNovo:{label:"Ano Novo",icon:"spark",important:false},
+    carnaval:{label:"Carnaval",icon:"confetti",important:true},
+    diaMulher:{label:"Dia da Mulher",icon:"flower",important:false},
+    pascoa:{label:"Páscoa",icon:"egg",important:false},
+    diaTrabalhador:{label:"Dia do Trabalhador",icon:"hardhat",important:false},
+    diaMaes:{label:"Dia das Mães",icon:"heart",important:true},
+    diaNamorados:{label:"Dia dos Namorados",icon:"doubleHeart",important:true},
+    diaAmigo:{label:"Dia do Amigo",icon:"link",important:false},
+    saoJoao:{label:"São João",icon:"pennant",important:true},
+    diaPais:{label:"Dia dos Pais",icon:"tie",important:false},
+    diaAvos:{label:"Dia dos Avós",icon:"book",important:false},
+    diaHomem:{label:"Dia do Homem",icon:"diamond",important:false},
+    diaCriancas:{label:"Dia das Crianças",icon:"kite",important:false},
+    halloween:{label:"Halloween",icon:"crescent",important:false},
+    natal:{label:"Natal",icon:"tree",important:true},
+    diaConsumidor:{label:"Dia do Consumidor",icon:"bag",important:false},
+    mesConsumidor:{label:"Mês do Consumidor",icon:"calendar",important:false},
+    semanaCliente:{label:"Semana do Cliente",icon:"ticket",important:false},
+    diaCliente:{label:"Dia do Cliente",icon:"badge",important:false},
+    onzeOnze:{label:"11.11",icon:"bars",important:false},
+    esquentaBlack:{label:"Esquenta Black Friday",icon:"flame",important:false},
+    blackFriday:{label:"Black Friday",icon:"tag",important:true},
+    cyberMonday:{label:"Cyber Monday",icon:"chip",important:false},
+    liquidacao:{label:"Liquidação",icon:"percent",important:false},
+    freteGratis:{label:"Frete Grátis",icon:"truck",important:false},
+    aniversarioLobi:{label:"Aniversário LOBI",icon:"cake",important:false},
+    dropEspecial:{label:"Drop Especial",icon:"box",important:false},
+    voltaAulas:{label:"Volta às Aulas",icon:"notebook",important:false},
+    verao:{label:"Verão",icon:"sun",important:false},
+    inverno:{label:"Inverno",icon:"snowflake",important:false}
+  };
+
+  Object.entries(campaignMeta).forEach(([key,meta])=>{
+    if(!presets[key])return;
+    const originalTheme={...presets[key].theme};
+    presets[key].campaign={
+      key,
+      label:meta.label,
+      icon:meta.icon,
+      important:!!meta.important,
+      useHeroArt:true,
+      usePromoArt:true,
+      accent1:originalTheme.primary||defaults.theme.primary,
+      accent2:originalTheme.secondary||defaults.theme.secondary
+    };
+    if(!meta.important){
+      presets[key].theme={...defaults.theme};
+    }
+  });
+
+
   const $ = s => document.querySelector(s);
   const pageView = $("#pageView");
   if (!pageView) return;
@@ -534,14 +587,39 @@
 
   function applyPreset(name){
     if(!presets[name]) return;
-    const keepImages={hero:config.hero.imageUrl,promo:config.promo.imageUrl};
-    config=JSON.parse(JSON.stringify(presets[name]));
-    config.hero.imageUrl=keepImages.hero||config.hero.imageUrl;
-    config.promo.imageUrl=keepImages.promo||config.promo.imageUrl;
+    const previousImages={hero:config.hero?.imageUrl||"",promo:config.promo?.imageUrl||""};
+    const next=JSON.parse(JSON.stringify(presets[name]));
+    const hasThemeArt=!!next.campaign?.useHeroArt;
+    let keepCustom=false;
+
+    if(hasThemeArt&&(previousImages.hero||previousImages.promo)){
+      keepCustom=!confirm("Este tema possui imagens próprias.\n\nDeseja substituir suas imagens atuais pelas imagens do tema?\n\nOK = usar imagens do tema\nCancelar = manter suas imagens");
+    }
+
+    config=next;
+
+    if(hasThemeArt){
+      if(keepCustom){
+        config.hero.imageUrl=previousImages.hero;
+        config.promo.imageUrl=previousImages.promo;
+        config.campaign.useHeroArt=!previousImages.hero;
+        config.campaign.usePromoArt=!previousImages.promo;
+      }else{
+        config.hero.imageUrl="";
+        config.promo.imageUrl="";
+        config.campaign.useHeroArt=true;
+        config.campaign.usePromoArt=true;
+      }
+    }else{
+      config.hero.imageUrl=previousImages.hero||config.hero.imageUrl;
+      config.promo.imageUrl=previousImages.promo||config.promo.imageUrl;
+      config.campaign={...defaults.campaign,key:name,label:name==="original"?"LOBI Original":name,icon:"spark",useHeroArt:false,usePromoArt:false};
+    }
+
     setVal("#presetSelect",name);
     setVal("#quickPresetSelect",name);
     fillForm();
-    setStatus("Tema completo aplicado na prévia: cores, textos, slogan, faixa e banner. Salve para publicar.","ok");
+    setStatus("Tema completo aplicado: visual, imagem, ícone, textos, slogan, faixa e banner. Salve para publicar.","ok");
   }
 
   async function uploadEditorImage(file,targetInput){
@@ -556,6 +634,9 @@
       if(error) throw error;
       const {data}=sb.storage.from("product-images").getPublicUrl(path);
       setVal(targetInput,data.publicUrl);
+      config.campaign=config.campaign||{};
+      if(targetInput==="#heroImageUrl")config.campaign.useHeroArt=false;
+      if(targetInput==="#promoImageUrl")config.campaign.usePromoArt=false;
       sendPreview();
       setStatus("Imagem enviada. Salve para publicar.","ok");
     }catch(e){
@@ -766,6 +847,14 @@
     pageView.querySelectorAll("input,textarea,select").forEach(input=>{
       if(input.id==="presetSelect"||input.type==="file")return;
       input.addEventListener(input.type==="checkbox"||input.tagName==="SELECT"?"change":"input",()=>{
+        if(input.id==="heroImageUrl"&&input.value){
+          config.campaign=config.campaign||{};
+          config.campaign.useHeroArt=false;
+        }
+        if(input.id==="promoImageUrl"&&input.value){
+          config.campaign=config.campaign||{};
+          config.campaign.usePromoArt=false;
+        }
         syncOutputs();sendPreview();
       });
     });
