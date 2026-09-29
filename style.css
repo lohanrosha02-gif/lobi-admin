@@ -456,3 +456,57 @@ kbd{
   .modal-header{padding:18px}
   .editor-workflow{scrollbar-width:none}
 }
+
+
+/* MOBILE PRODUCT CARDS */
+@media(max-width:650px){
+  .products-panel{background:transparent;border:0;box-shadow:none;overflow:visible}
+  .table-wrap{overflow:visible}
+  .products-table{min-width:0;border-collapse:separate;border-spacing:0 10px}
+  .products-table thead{display:none}
+  .products-table,.products-table tbody,.products-table tr,.products-table td{display:block;width:100%}
+  .products-table tbody tr{
+    position:relative;
+    padding:14px;
+    border:1px solid var(--line);
+    border-radius:13px;
+    background:linear-gradient(180deg,#0e0e10,#09090a);
+    box-shadow:0 10px 32px rgba(0,0,0,.2);
+  }
+  .products-table td{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:8px 0;
+    border:0;
+    font-size:11px;
+  }
+  .products-table td[data-label]::before{
+    content:attr(data-label);
+    color:#666;
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+  .products-table .product-main-cell{
+    display:block;
+    padding:0 0 12px;
+    margin-bottom:4px;
+    border-bottom:1px solid var(--line);
+  }
+  .product-cell{min-width:0;align-items:flex-start}
+  .product-thumb,.product-thumb-placeholder{width:66px;height:82px}
+  .product-name{font-size:12px}
+  .product-meta{margin-top:6px;line-height:1.45}
+  .products-table .product-actions-cell{
+    display:block;
+    padding-top:12px;
+    margin-top:4px;
+    border-top:1px solid var(--line);
+  }
+  .table-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .mini-btn{min-height:38px}
+  .status-pill{margin-left:auto}
+}
