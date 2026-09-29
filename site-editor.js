@@ -739,6 +739,45 @@
     });
   }
 
+  function simplifyAdvancedEditor(){
+    const directIds=[
+      "heroEyebrow","heroTitle","heroAccent","heroDescription","heroButtonText",
+      "marqueeText",
+      "productsEyebrow","productsTitle","productsDescription",
+      "promoTitle","promoSubtitle","promoButtonText",
+      "manifestoEyebrow","manifestoTitle","manifestoAccent","manifestoBody","manifestoTags",
+      "footerTagline","footerInstagram","footerWhatsapp","footerCopyright"
+    ];
+
+    directIds.forEach(id=>{
+      const input=document.getElementById(id);
+      const label=input?.closest("label");
+      if(label)label.classList.add("direct-preview-only");
+    });
+
+    document.querySelector(".preset-row")?.classList.add("direct-preview-only");
+    document.querySelector("#heroImageUrl")?.closest("label")?.classList.add("direct-preview-only");
+    document.querySelector("#promoImageUrl")?.closest("label")?.classList.add("direct-preview-only");
+    document.querySelector("#heroImageFile")?.closest(".editor-upload-row")?.classList.add("direct-preview-only");
+    document.querySelector("#promoImageFile")?.closest(".editor-upload-row")?.classList.add("direct-preview-only");
+
+    const controls=document.querySelector(".editor-controls");
+    if(controls && !document.getElementById("advancedOnlyHint")){
+      const hint=document.createElement("div");
+      hint.id="advancedOnlyHint";
+      hint.className="advanced-only-hint";
+      hint.innerHTML="<strong>AJUSTES AVANÇADOS</strong><span>Textos, imagens, botões e ordem são editados direto na prévia. Aqui ficam apenas controles técnicos e de precisão.</span>";
+      const status=document.getElementById("editorStatus");
+      if(status)status.insertAdjacentElement("afterend",hint);
+      else controls.prepend(hint);
+    }
+
+    document.querySelectorAll(".editor-grid-2").forEach(grid=>{
+      const visible=[...grid.children].filter(el=>!el.classList.contains("direct-preview-only"));
+      grid.classList.toggle("single-control",visible.length===1);
+    });
+  }
+
   function setVisualMode(visual=true){
     const shell=document.querySelector(".page-editor-shell");
     if(!shell)return;
