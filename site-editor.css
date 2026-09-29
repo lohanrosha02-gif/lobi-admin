@@ -226,3 +226,161 @@
   .quick-theme{grid-template-columns:1fr}
   .quick-theme .btn{width:100%}
 }
+
+
+/* LOBI EDITOR V3 */
+#pageView>.topbar{
+  position:relative;
+  top:auto;
+  padding-top:0;
+  background:none;
+  backdrop-filter:none;
+}
+.page-editor-shell{grid-template-columns:minmax(320px,390px) minmax(0,1fr);gap:12px}
+.editor-controls{
+  border-color:var(--line);
+  padding:14px;
+}
+.editor-toolbar{
+  top:-14px;
+  margin:-2px 0 12px;
+  padding:10px 0 12px;
+  gap:6px;
+}
+.editor-toolbar .btn{
+  min-height:36px;
+  padding:9px 10px;
+  font-size:8px;
+}
+.editor-status{
+  min-height:34px;
+  display:flex;
+  align-items:center;
+  margin:0 0 10px;
+  border:1px solid var(--line);
+}
+.editor-status.ok{
+  border-color:rgba(183,255,0,.18);
+  background:rgba(183,255,0,.035);
+}
+.editor-status.error{
+  border-color:rgba(239,43,32,.22);
+  background:rgba(239,43,32,.04);
+}
+.editor-group{
+  margin-bottom:7px;
+  border-color:var(--line);
+}
+.editor-group>summary{padding:12px 40px 12px 13px}
+.editor-group-body{
+  padding:13px;
+  gap:11px;
+}
+.editor-controls label{font-size:9px}
+.editor-controls input,.editor-controls textarea,.editor-controls select{padding:10px 11px}
+.editor-controls textarea{min-height:70px}
+.editor-inline{
+  min-height:38px;
+  padding:7px 9px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#080809;
+}
+.editor-range{grid-template-columns:minmax(0,1fr) 50px}
+.editor-range output{
+  padding:9px 6px;
+  border-radius:7px;
+}
+.editor-preview-panel{
+  border-color:var(--line);
+  min-height:720px;
+}
+.preview-bar{
+  display:grid;
+  grid-template-columns:minmax(190px,.75fr) minmax(0,1.8fr);
+  align-items:center;
+  gap:12px;
+  padding:10px 12px;
+}
+.preview-bar>.preview-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:6px;
+}
+.preview-actions>.btn,.quick-theme .btn{min-height:36px}
+.preview-actions #saveAllPageQuick{
+  min-width:104px;
+  box-shadow:0 7px 24px rgba(183,255,0,.10);
+}
+.preview-devices{flex:0 0 auto}
+.quick-theme{
+  min-width:min(360px,100%);
+  grid-template-columns:minmax(145px,1fr) auto;
+}
+.quick-theme select{
+  min-height:36px;
+  border-color:rgba(183,255,0,.12);
+  background:#09090b;
+}
+.quick-theme select:hover{border-color:rgba(183,255,0,.28)}
+.visual-selection-info{
+  min-height:22px;
+  margin-top:5px;
+  padding:4px 8px;
+  border-color:var(--line);
+  background:#0d0d0f;
+  color:#8e8e92;
+}
+.preview-stage{
+  padding:14px;
+  min-height:740px;
+}
+.preview-frame-wrap{
+  border-radius:10px;
+  box-shadow:0 18px 65px rgba(0,0,0,.46),0 0 0 1px rgba(255,255,255,.07);
+}
+.page-editor-shell.visual-only .editor-preview-panel{
+  border-color:rgba(255,255,255,.08);
+}
+.page-editor-shell.visual-only .preview-stage{
+  min-height:calc(100vh - 240px);
+}
+.page-editor-shell.visual-only .preview-frame-wrap{
+  height:calc(100vh - 235px);
+  min-height:680px;
+}
+.section-order-list{gap:6px}
+.section-order-item{
+  padding:9px;
+  border-color:var(--line);
+  background:#0a0a0b;
+}
+.preset-row select{min-height:38px}
+.editor-upload-label{
+  min-height:38px;
+  background:rgba(183,255,0,.025);
+}
+.editor-upload-label:hover{background:rgba(183,255,0,.055)}
+@media(max-width:1250px){
+  .preview-bar{grid-template-columns:1fr}
+  .preview-bar>.preview-actions{justify-content:flex-start}
+  .quick-theme{min-width:260px}
+}
+@media(max-width:1100px){
+  .page-editor-shell{grid-template-columns:1fr}
+  .editor-controls{max-height:none}
+  .page-editor-shell.visual-only .preview-frame-wrap{height:760px;min-height:650px}
+}
+@media(max-width:760px){
+  .preview-actions{display:grid!important;grid-template-columns:1fr 1fr;width:100%}
+  .preview-devices,.quick-theme{grid-column:1/-1;width:100%}
+  .quick-theme{grid-template-columns:1fr auto}
+  .preview-actions>.btn,.preview-actions>.btn-link{width:100%}
+}
+@media(max-width:520px){
+  .preview-actions{grid-template-columns:1fr}
+  .preview-devices,.quick-theme{grid-column:auto}
+  .quick-theme{grid-template-columns:1fr}
+  .preview-stage{padding:5px}
+  .page-editor-shell.visual-only .preview-frame-wrap{height:690px;min-height:620px}
+}
