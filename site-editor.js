@@ -439,6 +439,14 @@
   function setVal(id,v){ const e=$(id); if(e) e.value=v ?? ""; }
   function setCheck(id,v){ const e=$(id); if(e) e.checked=!!v; }
 
+  function syncThemeSelectors(){
+    const full=$("#presetSelect"),quick=$("#quickPresetSelect");
+    if(!full||!quick)return;
+    const current=quick.value||full.value||"original";
+    quick.innerHTML=full.innerHTML;
+    if([...quick.options].some(o=>o.value===current))quick.value=current;
+  }
+
   function syncOutputs(){
     document.querySelectorAll("[data-output-for]").forEach(o=>{
       const input=$("#"+o.dataset.outputFor);
@@ -481,6 +489,11 @@
     setVal("#footerInstagram",config.footer.instagram); setVal("#footerWhatsapp",config.footer.whatsapp);
     setVal("#footerCopyright",config.footer.copyright);
 
+    const activeTheme=config.campaign?.key;
+    if(activeTheme&&presets[activeTheme]){
+      setVal("#presetSelect",activeTheme);
+      setVal("#quickPresetSelect",activeTheme);
+    }
     renderOrderList();
     syncOutputs();
     sendPreview();
@@ -820,13 +833,16 @@
   }
 
   async function saveAllPage(){
-    const btn=$("#saveAllPage");
-    if(btn){btn.disabled=true;btn.textContent="SALVANDO TUDO...";}
-    await saveConfig();
-    const blockSave=$("#saveBlocksBtn");
-    if(blockSave)blockSave.click();
-    setStatus("Visual e itens enviados para salvamento.","ok");
-    if(btn){btn.disabled=false;btn.textContent="SALVAR TUDO";}
+    const buttons=[$("#saveAllPage"),$("#saveAllPageQuick")].filter(Boolean);
+    buttons.forEach(btn=>{btn.disabled=true;btn.dataset.originalText=btn.textContent;btn.textContent="SALVANDO...";});
+    try{
+      await saveConfig();
+      const blockSave=$("#saveBlocksBtn");
+      if(blockSave)blockSave.click();
+      setStatus("Tudo enviado para salvamento. A prévia será atualizada.","ok");
+    }finally{
+      buttons.forEach(btn=>{btn.disabled=false;btn.textContent=btn.dataset.originalText||"SALVAR TUDO";});
+    }
   }
 
   function focusSection(section){
@@ -842,6 +858,7 @@
     initialized=true;
     const frame=$("#sitePreview"); if(frame) frame.src=STORE_PREVIEW_URL;
     ensureFixedUndoButton();
+    syncThemeSelectors();
     setVisualMode(true);
 
     pageView.querySelectorAll("input,textarea,select").forEach(input=>{
