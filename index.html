@@ -99,7 +99,40 @@
             <details class="editor-group" open data-editor-section="theme">
               <summary>Tema e cores</summary>
               <div class="editor-group-body">
-                <div class="preset-row"><select id="presetSelect"><option value="original">LOBI Original</option><option value="minimal">Minimal Dark</option><option value="neon">Neon Street</option></select><button id="applyPreset" class="btn btn-ghost" type="button">APLICAR</button></div>
+                <div class="preset-row"><select id="presetSelect"><option value="original">LOBI Original</option>
+<option value="minimal">Minimal Dark</option>
+<option value="neon">Neon Street</option>
+<optgroup label="Datas comemorativas">
+  <option value="anoNovo">Ano Novo</option>
+  <option value="carnaval">Carnaval</option>
+  <option value="pascoa">Páscoa</option>
+  <option value="diaMaes">Dia das Mães</option>
+  <option value="diaNamorados">Dia dos Namorados</option>
+  <option value="saoJoao">São João / Festa Junina</option>
+  <option value="diaPais">Dia dos Pais</option>
+  <option value="diaHomem">Dia do Homem</option>
+  <option value="halloween">Halloween</option>
+  <option value="natal">Natal</option>
+</optgroup>
+<optgroup label="Campanhas e promoções">
+  <option value="diaConsumidor">Dia do Consumidor</option>
+  <option value="mesConsumidor">Mês do Consumidor</option>
+  <option value="semanaCliente">Semana do Cliente</option>
+  <option value="diaCliente">Dia do Cliente</option>
+  <option value="onzeOnze">11.11</option>
+  <option value="esquentaBlack">Esquenta Black Friday</option>
+  <option value="blackFriday">Black Friday</option>
+  <option value="cyberMonday">Cyber Monday</option>
+  <option value="liquidacao">Liquidação / Sale</option>
+  <option value="freteGratis">Frete Grátis</option>
+  <option value="aniversarioLobi">Aniversário LOBI</option>
+  <option value="dropEspecial">Drop Especial</option>
+</optgroup>
+<optgroup label="Temporadas">
+  <option value="verao">Verão</option>
+  <option value="inverno">Inverno</option>
+</optgroup></select><button id="applyPreset" class="btn btn-ghost" type="button">APLICAR</button></div>
+                <span class="editor-help">Os temas de campanha já trazem cores, Hero, faixa, banner, texto e slogan prontos. Nenhum desconto é inventado automaticamente.</span>
                 <label>Fundo<div class="editor-color"><input id="themeBackground" type="color"><input type="text" data-mirror="#themeBackground" value="#050505" disabled></div></label>
                 <label>Texto<div class="editor-color"><input id="themeText" type="color"><input type="text" value="Texto principal" disabled></div></label>
                 <label>Cor principal<div class="editor-color"><input id="themePrimary" type="color"><input type="text" value="Verde / destaque" disabled></div></label>
@@ -215,6 +248,42 @@
                   <button class="preview-device active" type="button" data-device="desktop">Desktop</button>
                   <button class="preview-device" type="button" data-device="tablet">Tablet</button>
                   <button class="preview-device" type="button" data-device="mobile">Celular</button>
+                </div>
+                <div class="quick-theme">
+                  <select id="quickPresetSelect" aria-label="Tema pronto"><option value="original">LOBI Original</option>
+<option value="minimal">Minimal Dark</option>
+<option value="neon">Neon Street</option>
+<optgroup label="Datas comemorativas">
+  <option value="anoNovo">Ano Novo</option>
+  <option value="carnaval">Carnaval</option>
+  <option value="pascoa">Páscoa</option>
+  <option value="diaMaes">Dia das Mães</option>
+  <option value="diaNamorados">Dia dos Namorados</option>
+  <option value="saoJoao">São João / Festa Junina</option>
+  <option value="diaPais">Dia dos Pais</option>
+  <option value="diaHomem">Dia do Homem</option>
+  <option value="halloween">Halloween</option>
+  <option value="natal">Natal</option>
+</optgroup>
+<optgroup label="Campanhas e promoções">
+  <option value="diaConsumidor">Dia do Consumidor</option>
+  <option value="mesConsumidor">Mês do Consumidor</option>
+  <option value="semanaCliente">Semana do Cliente</option>
+  <option value="diaCliente">Dia do Cliente</option>
+  <option value="onzeOnze">11.11</option>
+  <option value="esquentaBlack">Esquenta Black Friday</option>
+  <option value="blackFriday">Black Friday</option>
+  <option value="cyberMonday">Cyber Monday</option>
+  <option value="liquidacao">Liquidação / Sale</option>
+  <option value="freteGratis">Frete Grátis</option>
+  <option value="aniversarioLobi">Aniversário LOBI</option>
+  <option value="dropEspecial">Drop Especial</option>
+</optgroup>
+<optgroup label="Temporadas">
+  <option value="verao">Verão</option>
+  <option value="inverno">Inverno</option>
+</optgroup></select>
+                  <button class="btn btn-ghost" id="quickApplyPreset" type="button">APLICAR TEMA</button>
                 </div>
                 <button class="btn btn-ghost" id="quickAddBlock" type="button">+ ITEM</button>
                 <button class="btn btn-ghost" id="toggleAdvancedEditor" type="button">AJUSTES AVANÇADOS</button>
