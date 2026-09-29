@@ -77,7 +77,7 @@
 
   function campaignPreset({
     background="#050505",text="#f4f4f1",primary="#b7ff00",secondary="#ef2b20",panel="#0d0d0d",muted="#9a9a9a",
-    eyebrow="LOBI LIFESTYLE",title="NÃO É SÓ\\nROUPA.",accent="É PRESENÇA.",
+    eyebrow="LOBI LIFESTYLE",title="NÃO É SÓ\nROUPA.",accent="É PRESENÇA.",
     description="Streetwear masculino selecionado para quem carrega identidade no jeito de vestir.",
     buttonText="VER PRODUTOS",marquee="LOBI LIFESTYLE ✦ STREETWEAR MASCULINO ✦ PRESENÇA",
     promoTitle="LOBI LIFESTYLE",promoSubtitle="ESTILO, ATITUDE E IDENTIDADE.",promoButton="VER PRODUTOS",
@@ -125,6 +125,14 @@
       promoTitle:"NO SEU RITMO.",promoSubtitle:"STREETWEAR PARA FAZER PRESENÇA ONDE VOCÊ FOR.",promoButton:"VER PEÇAS",
       productsEyebrow:"CARNAVAL LOBI",productsTitle:"ESTILO EM MOVIMENTO"
     }),
+    diaMulher: campaignPreset({
+      background:"#0e0710",text:"#fff7ff",primary:"#e8a8ff",secondary:"#b044c6",panel:"#170b19",muted:"#b7a0ba",
+      eyebrow:"LOBI · DIA DA MULHER",title:"PRESENÇA.",accent:"FORÇA. IDENTIDADE.",
+      description:"Uma campanha de celebração para mulheres que constroem presença do próprio jeito.",
+      buttonText:"VER SELEÇÃO",marquee:"DIA DA MULHER ✦ PRESENÇA ✦ FORÇA ✦ IDENTIDADE",
+      promoTitle:"PRESENÇA QUE INSPIRA.",promoSubtitle:"UMA HOMENAGEM EM FORMA DE IDENTIDADE.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"DIA DA MULHER",productsTitle:"SELEÇÃO ESPECIAL"
+    }),
     pascoa: campaignPreset({
       background:"#110c09",text:"#fff4df",primary:"#d9a35f",secondary:"#9d6cff",panel:"#1a120e",muted:"#b9a995",
       eyebrow:"LOBI · PÁSCOA",title:"SEU ESTILO",accent:"MERECE PRESENTE.",
@@ -132,6 +140,14 @@
       buttonText:"VER PRESENTES",marquee:"PÁSCOA LOBI ✦ PRESENTE COM IDENTIDADE ✦ PRESENÇA",
       promoTitle:"PRESENTE COM PRESENÇA.",promoSubtitle:"ESCOLHA ALGO QUE REALMENTE REPRESENTA.",promoButton:"VER SELEÇÃO",
       productsEyebrow:"PÁSCOA LOBI",productsTitle:"ESCOLHA O PRESENTE"
+    }),
+    diaTrabalhador: campaignPreset({
+      background:"#060707",text:"#f7f7f2",primary:"#f2c94c",secondary:"#b7ff00",panel:"#101111",muted:"#9d9d94",
+      eyebrow:"LOBI · DIA DO TRABALHADOR",title:"CORRE TODO DIA.",accent:"PRESENÇA TAMBÉM.",
+      description:"Para quem constrói, cria, resolve e segue em movimento.",
+      buttonText:"VER SELEÇÃO",marquee:"DIA DO TRABALHADOR ✦ CORRE ✦ ATITUDE ✦ PRESENÇA",
+      promoTitle:"PRA QUEM FAZ ACONTECER.",promoSubtitle:"UMA CAMPANHA PARA QUEM NÃO PARA.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"DIA DO TRABALHADOR",productsTitle:"SELEÇÃO PARA O CORRE"
     }),
     diaMaes: campaignPreset({
       background:"#10090c",text:"#fff4f7",primary:"#e9a7b8",secondary:"#9e2f50",panel:"#180d12",muted:"#bd9da6",
@@ -149,6 +165,14 @@
       promoTitle:"PRESENTE QUE TEM IDENTIDADE.",promoSubtitle:"PARA QUEM FAZ PARTE DA SUA HISTÓRIA.",promoButton:"ESCOLHER PRESENTE",
       productsEyebrow:"DIA DOS NAMORADOS",productsTitle:"PARA PRESENTEAR"
     }),
+    diaAmigo: campaignPreset({
+      background:"#05080b",text:"#f6fbff",primary:"#62d8ff",secondary:"#b7ff00",panel:"#0b1217",muted:"#95a6ae",
+      eyebrow:"LOBI · DIA DO AMIGO",title:"QUEM FECHA",accent:"COM VOCÊ.",
+      description:"Amizade também tem identidade. Presenteie quem divide o corre.",
+      buttonText:"VER PRESENTES",marquee:"DIA DO AMIGO ✦ PARCERIA ✦ RUA ✦ IDENTIDADE ✦ LOBI",
+      promoTitle:"PRA QUEM TÁ JUNTO.",promoSubtitle:"UM PRESENTE COM A CARA DA PARCERIA.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"DIA DO AMIGO",productsTitle:"PRESENTES PARA O PARCEIRO"
+    }),
     saoJoao: campaignPreset({
       background:"#070b12",text:"#fff8e8",primary:"#ffbf3f",secondary:"#ef5a29",panel:"#101723",muted:"#b0aa9c",
       eyebrow:"LOBI · SÃO JOÃO",title:"ARRAIÁ NA RUA.",accent:"ESTILO ACESO.",
@@ -165,6 +189,14 @@
       promoTitle:"UM PRESENTE À ALTURA.",promoSubtitle:"ESCOLHA UMA PEÇA COM IDENTIDADE PARA O DIA DOS PAIS.",promoButton:"VER SELEÇÃO",
       productsEyebrow:"DIA DOS PAIS",productsTitle:"PRESENTES COM PRESENÇA"
     }),
+    diaAvos: campaignPreset({
+      background:"#0b0a07",text:"#fffaf0",primary:"#d8bd7a",secondary:"#8d7653",panel:"#14120d",muted:"#aaa18e",
+      eyebrow:"LOBI · DIA DOS AVÓS",title:"HISTÓRIA QUE",accent:"VIRA PRESENÇA.",
+      description:"Para celebrar quem carrega história, referência e afeto.",
+      buttonText:"VER PRESENTES",marquee:"DIA DOS AVÓS ✦ HISTÓRIA ✦ AFETO ✦ PRESENÇA",
+      promoTitle:"PRESENTE COM HISTÓRIA.",promoSubtitle:"UM GESTO PARA QUEM SEMPRE FEZ PARTE.",promoButton:"VER SELEÇÃO",
+      productsEyebrow:"DIA DOS AVÓS",productsTitle:"PRESENTES COM SIGNIFICADO"
+    }),
     diaHomem: campaignPreset({
       background:"#040404",text:"#f5f5f2",primary:"#b7ff00",secondary:"#8b8b8b",panel:"#0d0d0d",muted:"#999999",
       eyebrow:"LOBI · DIA DO HOMEM",title:"SEU ESTILO.",accent:"SUA PRESENÇA.",
@@ -172,6 +204,14 @@
       buttonText:"VER O DROP",marquee:"DIA DO HOMEM ✦ ESTILO ✦ ATITUDE ✦ IDENTIDADE ✦ LOBI",
       promoTitle:"PRESENÇA É IDENTIDADE.",promoSubtitle:"UMA SELEÇÃO PARA QUEM SABE O QUE REPRESENTA.",promoButton:"VER PEÇAS",
       productsEyebrow:"DIA DO HOMEM",productsTitle:"STREETWEAR COM IDENTIDADE"
+    }),
+    diaCriancas: campaignPreset({
+      background:"#07070b",text:"#fffefe",primary:"#ffd633",secondary:"#5e9cff",panel:"#101015",muted:"#a5a5b0",
+      eyebrow:"LOBI · DIA DAS CRIANÇAS",title:"ATITUDE NÃO",accent:"TEM IDADE.",
+      description:"Tema pronto para a data. Use apenas se houver produtos adequados ao público da campanha.",
+      buttonText:"VER SELEÇÃO",marquee:"DIA DAS CRIANÇAS ✦ COR ✦ MOVIMENTO ✦ IDENTIDADE",
+      promoTitle:"PRESENÇA DESDE CEDO.",promoSubtitle:"ADAPTE A CAMPANHA AO SEU CATÁLOGO REAL.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"DIA DAS CRIANÇAS",productsTitle:"SELEÇÃO DA DATA"
     }),
     halloween: campaignPreset({
       background:"#030303",text:"#fff7ef",primary:"#ff7417",secondary:"#7e3cff",panel:"#0d0911",muted:"#a99baa",
@@ -285,6 +325,14 @@
       buttonText:"VER O DROP",marquee:"NOVO DROP ✦ LOBI LIFESTYLE ✦ QUANTIDADES LIMITADAS ✦ PRESENÇA",
       promoTitle:"DROP ESPECIAL.",promoSubtitle:"PEÇAS SELECIONADAS PARA O PRÓXIMO MOVIMENTO.",promoButton:"EXPLORAR DROP",
       productsEyebrow:"DROP ESPECIAL",productsTitle:"NOVAS PEÇAS"
+    }),
+    voltaAulas: campaignPreset({
+      background:"#05080c",text:"#f5fbff",primary:"#5ea8ff",secondary:"#b7ff00",panel:"#0a1118",muted:"#96a4b0",
+      eyebrow:"LOBI · VOLTA ÀS AULAS",title:"VOLTA PRO CORRE.",accent:"COM PRESENÇA.",
+      description:"Uma campanha urbana para começar uma nova rotina sem abrir mão da identidade.",
+      buttonText:"VER SELEÇÃO",marquee:"VOLTA ÀS AULAS ✦ NOVA ROTINA ✦ MESMA IDENTIDADE ✦ LOBI",
+      promoTitle:"BACK TO THE STREET.",promoSubtitle:"PEÇAS PARA COMEÇAR A ROTINA COM PRESENÇA.",promoButton:"VER PRODUTOS",
+      productsEyebrow:"VOLTA ÀS AULAS",productsTitle:"NOVO COMEÇO"
     }),
     verao: campaignPreset({
       background:"#07100f",text:"#f7fff8",primary:"#dfff3f",secondary:"#ff7043",panel:"#0c1715",muted:"#9eaaa4",
