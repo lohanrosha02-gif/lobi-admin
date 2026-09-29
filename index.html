@@ -40,6 +40,10 @@
         </nav>
       </div>
       <div class="sidebar-bottom">
+        <a class="sidebar-store-link" href="../lobi-lifestyle/" target="_blank" rel="noopener">
+          <span class="store-status-dot"></span>
+          <span><strong>LOJA ONLINE</strong><small>Abrir site ↗</small></span>
+        </a>
         <p id="adminEmail" class="admin-email"></p>
         <button id="logoutButton" class="btn btn-ghost" type="button">SAIR</button>
       </div>
@@ -51,20 +55,39 @@
         <div><p class="eyebrow">LOBI LIFESTYLE</p><h1>PRODUTOS</h1><p class="topbar-subtitle">Cadastre, edite e organize o catálogo da loja.</p></div>
         <div class="topbar-actions">
           <button class="mobile-menu" id="mobileMenuButton" type="button" aria-label="Abrir menu">☰</button>
+          <button class="btn btn-ghost compact-action" id="refreshProductsButton" type="button" title="Atualizar produtos">↻ ATUALIZAR</button>
           <button class="btn btn-primary" id="newProductButton" type="button">+ NOVO PRODUTO</button>
         </div>
       </header>
 
       <section class="stats-grid">
-        <article class="stat"><span>TOTAL</span><strong id="statTotal">0</strong></article>
-        <article class="stat"><span>ATIVOS</span><strong id="statActive">0</strong></article>
-        <article class="stat"><span>SEM ESTOQUE</span><strong id="statOut">0</strong></article>
+        <article class="stat stat-action" data-product-filter="all" tabindex="0"><span>TOTAL</span><strong id="statTotal">0</strong><small>Todos os produtos</small></article>
+        <article class="stat stat-action" data-product-filter="active" tabindex="0"><span>ATIVOS</span><strong id="statActive">0</strong><small>Disponíveis na loja</small></article>
+        <article class="stat stat-action" data-product-filter="out" tabindex="0"><span>SEM ESTOQUE</span><strong id="statOut">0</strong><small>Precisam de atenção</small></article>
       </section>
 
-      <section class="toolbar">
-        <label class="search-box"><span>⌕</span><input id="productSearch" type="search" placeholder="Buscar produto..."></label>
+      <section class="toolbar product-toolbar">
+        <label class="search-box"><span>⌕</span><input id="productSearch" type="search" placeholder="Buscar nome, categoria ou tag..."></label>
         <select id="categoryFilter" aria-label="Filtrar categoria"><option value="">Todas as categorias</option></select>
+        <select id="statusFilter" aria-label="Filtrar status">
+          <option value="">Todos os status</option>
+          <option value="active">Ativos</option>
+          <option value="inactive">Inativos</option>
+          <option value="out">Sem estoque</option>
+        </select>
+        <select id="sortFilter" aria-label="Ordenar produtos">
+          <option value="recent">Mais recentes</option>
+          <option value="name">Nome A–Z</option>
+          <option value="priceHigh">Maior preço</option>
+          <option value="priceLow">Menor preço</option>
+          <option value="stockLow">Menor estoque</option>
+        </select>
+        <button class="toolbar-clear" id="clearProductFilters" type="button">LIMPAR</button>
       </section>
+      <div class="products-result-bar">
+        <span id="resultsCount">0 produtos</span>
+        <span class="shortcut-hint"><kbd>/</kbd> buscar <kbd>N</kbd> novo produto <kbd>Alt+1</kbd> produtos <kbd>Alt+2</kbd> página</span>
+      </div>
 
       <section class="products-panel">
         <div id="loadingProducts" class="state-message">Carregando produtos...</div>
@@ -85,6 +108,14 @@
             <button class="mobile-menu" id="mobileMenuButtonPage" type="button" aria-label="Abrir menu">☰</button>
           </div>
         </header>
+
+        <div class="editor-workflow">
+          <div><strong>1</strong><span>Escolha um tema ou clique na prévia</span></div>
+          <i>→</i>
+          <div><strong>2</strong><span>Edite textos, imagens e posição</span></div>
+          <i>→</i>
+          <div><strong>3</strong><span>Use SALVAR TUDO para publicar</span></div>
+        </div>
 
         <div class="page-editor-shell">
           <aside class="editor-controls">
