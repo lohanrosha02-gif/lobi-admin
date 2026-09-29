@@ -710,71 +710,46 @@
   function renderOrderList(){
     const list=$("#sectionOrderList"); if(!list) return;
     list.innerHTML="";
-    const hiddenKeys=(config.order||[]).filter(key=>{
-      const visibilityInput=document.querySelector(visibilityInputs[key]||"");
-      return visibilityInput ? !visibilityInput.checked : false;
-    });
-
-    if(!hiddenKeys.length){
-      list.innerHTML='<p class="editor-help">Nenhuma seção oculta. A ordem das seções visíveis é alterada arrastando diretamente na prévia.</p>';
-      return;
-    }
-
-    hiddenKeys.forEach(key=>{
+    config.order.forEach((key,index)=>{
       const item=document.createElement("div");
-      item.className="section-order-item section-hidden recovery-row";
+      const visibilityInput=document.querySelector(visibilityInputs[key]||"");
+      const isVisible=visibilityInput ? visibilityInput.checked : true;
+      item.className="section-order-item"+(isVisible?"":" section-hidden");
+      item.draggable=true;
       item.dataset.key=key;
-      item.innerHTML='<span class="recovery-icon">↶</span><span class="order-label">'+labels[key]+' <small>OCULTO</small></span><button class="order-delete" type="button" aria-label="Restaurar" title="Restaurar">RESTAURAR</button>';
+      item.innerHTML='<span class="drag-handle">⋮⋮</span><span class="order-label">'+labels[key]+(isVisible?"":' <small>OCULTO</small>')+'</span><button class="order-move" type="button" data-dir="-1" aria-label="Mover para cima">↑</button><button class="order-move" type="button" data-dir="1" aria-label="Mover para baixo">↓</button><button class="order-delete" type="button" aria-label="'+(isVisible?"Excluir":"Restaurar")+'" title="'+(isVisible?"Excluir":"Restaurar")+'">'+(isVisible?"×":"↶")+'</button>';
+      item.addEventListener("dragstart",()=>item.classList.add("dragging"));
+      item.addEventListener("dragend",()=>item.classList.remove("dragging"));
+      item.addEventListener("dragover",e=>e.preventDefault());
+      item.addEventListener("contextmenu",e=>{e.preventDefault();if(isVisible)confirmDeleteFixedSection(key);});
       item.querySelector(".order-delete")?.addEventListener("click",()=>{
-        const input=document.querySelector(visibilityInputs[key]||"");
-        if(input)input.checked=true;
-        if(config[key]&&typeof config[key]==="object")config[key].visible=true;
-        if(fixedDeleteUndo?.section===key)fixedDeleteUndo=null;
-        updateFixedUndoButton();
-        renderOrderList();
-        sendPreview();
-        setStatus((labels[key]||"Item")+" restaurado na prévia. Salve para publicar.","ok");
+        if(isVisible){
+          confirmDeleteFixedSection(key);
+        }else{
+          const input=document.querySelector(visibilityInputs[key]||"");
+          if(input)input.checked=true;
+          if(config[key]&&typeof config[key]==="object")config[key].visible=true;
+          if(fixedDeleteUndo?.section===key)fixedDeleteUndo=null;
+          updateFixedUndoButton();
+          renderOrderList();
+          sendPreview();
+          setStatus((labels[key]||"Item")+" restaurado na prévia. Salve para publicar.","ok");
+        }
       });
+      item.addEventListener("drop",e=>{
+        e.preventDefault();
+        const dragging=list.querySelector(".dragging"); if(!dragging||dragging===item)return;
+        const from=config.order.indexOf(dragging.dataset.key), to=config.order.indexOf(item.dataset.key);
+        const [moved]=config.order.splice(from,1); config.order.splice(to,0,moved);
+        renderOrderList(); sendPreview();
+      });
+      item.querySelectorAll(".order-move").forEach(btn=>btn.addEventListener("click",()=>{
+        const dir=Number(btn.dataset.dir), from=config.order.indexOf(key), to=from+dir;
+        if(to<0||to>=config.order.length)return;
+        [config.order[from],config.order[to]]=[config.order[to],config.order[from]];
+        renderOrderList(); sendPreview();
+      }));
       list.appendChild(item);
-    });
-  }
-
-  function simplifyAdvancedEditor(){
-    const directIds=[
-      "heroEyebrow","heroTitle","heroAccent","heroDescription","heroButtonText",
-      "marqueeText",
-      "productsEyebrow","productsTitle","productsDescription",
-      "promoTitle","promoSubtitle","promoButtonText",
-      "manifestoEyebrow","manifestoTitle","manifestoAccent","manifestoBody","manifestoTags",
-      "footerTagline","footerInstagram","footerWhatsapp","footerCopyright"
-    ];
-
-    directIds.forEach(id=>{
-      const input=document.getElementById(id);
-      const label=input?.closest("label");
-      if(label)label.classList.add("direct-preview-only");
-    });
-
-    document.querySelector(".preset-row")?.classList.add("direct-preview-only");
-    document.querySelector("#heroImageUrl")?.closest("label")?.classList.add("direct-preview-only");
-    document.querySelector("#promoImageUrl")?.closest("label")?.classList.add("direct-preview-only");
-    document.querySelector("#heroImageFile")?.closest(".editor-upload-row")?.classList.add("direct-preview-only");
-    document.querySelector("#promoImageFile")?.closest(".editor-upload-row")?.classList.add("direct-preview-only");
-
-    const controls=document.querySelector(".editor-controls");
-    if(controls && !document.getElementById("advancedOnlyHint")){
-      const hint=document.createElement("div");
-      hint.id="advancedOnlyHint";
-      hint.className="advanced-only-hint";
-      hint.innerHTML="<strong>AJUSTES AVANÇADOS</strong><span>Textos, imagens, botões e ordem são editados direto na prévia. Aqui ficam apenas controles técnicos e de precisão.</span>";
-      const status=document.getElementById("editorStatus");
-      if(status)status.insertAdjacentElement("afterend",hint);
-      else controls.prepend(hint);
-    }
-
-    document.querySelectorAll(".editor-grid-2").forEach(grid=>{
-      const visible=[...grid.children].filter(el=>!el.classList.contains("direct-preview-only"));
-      grid.classList.toggle("single-control",visible.length===1);
     });
   }
 
@@ -867,7 +842,6 @@
     initialized=true;
     const frame=$("#sitePreview"); if(frame) frame.src=STORE_PREVIEW_URL;
     ensureFixedUndoButton();
-    simplifyAdvancedEditor();
     setVisualMode(true);
 
     pageView.querySelectorAll("input,textarea,select").forEach(input=>{
