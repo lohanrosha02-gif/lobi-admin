@@ -390,3 +390,21 @@
 .editor-group,.preview-device,.section-order-item{background:#191e20;border-color:#293132}
 .editor-status{color:#98a5a0}
 .preview-stage{background:#0c0f11}
+
+/* TEMA BRANCO PADRÃO | Editor da LOBI */
+.editor-controls,.editor-preview-panel,.editor-group,.section-order-item,.preview-device,.preview-bar,.preview-stage{background:#fff!important;border-color:#e0eade!important;color:#253b29}
+.preview-stage{background:#f5f9f2!important}
+.editor-status,.editor-help{color:#6b7f6e}
+.editor-group>summary,.order-label{color:#34543a}
+.editor-group[open]>summary{color:#487b32}
+.editor-color input,.editor-range output{background:#fff!important;color:#274129!important;border-color:#dae7d5}
+.preview-device.active{background:#c0f16e!important;color:#243b1b!important;border-color:#b0d680!important}
+.preview-device{background:#fff;color:#58705c}
+.quick-theme select{background:#fff;color:#2b452e;border-color:#dce8d7}
+.quick-theme select:hover{border-color:#9fc78c}
+.section-order-item.dragging{background:#eaf7e4!important}
+.order-move,.order-delete{background:#fff;border-color:#d9e6d4}
+.visual-selection-info{background:#f7faf5;color:#536e56;border-color:#e0eade}
+.preview-frame-wrap{background:#fff;box-shadow:0 8px 28px rgba(43,67,37,.1)}
+.editor-upload-label{background:#f2f8ed;color:#345637}
+.editor-upload-label:hover{background:#e6f3df}
