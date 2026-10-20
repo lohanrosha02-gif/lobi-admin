@@ -384,3 +384,9 @@
   .preview-stage{padding:5px}
   .page-editor-shell.visual-only .preview-frame-wrap{height:690px;min-height:620px}
 }
+
+/* DESIGN SYSTEM | Central de Links */
+.editor-controls,.editor-preview-panel{background:#141819;border-color:#293132}
+.editor-group,.preview-device,.section-order-item{background:#191e20;border-color:#293132}
+.editor-status{color:#98a5a0}
+.preview-stage{background:#0c0f11}
