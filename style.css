@@ -519,3 +519,62 @@ body{background-image:none}
 .login-screen{background:radial-gradient(circle at 80% 20%,rgba(192,241,110,.085),transparent 35%),#0c0f11}
 .login-card,.stat,.products-panel,.editor-controls,.editor-preview-panel{border-color:#293132}
 ::selection{background:#c0f16e;color:#0c0f11}
+
+/* TEMA BRANCO PADRÃO | Central de Links 2026-10-20 */
+:root{
+ color-scheme:light;
+ --black:#ffffff;--panel:#ffffff;--panel-2:#f8faf6;--panel-3:#f2f7ee;
+ --white:#233525;--muted:#687b6d;--green:#c0f16e;
+ --border:#e0eade;--border-strong:#c8d9c2;--line:#e0eade;--line-strong:#c6d9be;
+ --surface:#ffffff;--surface-2:#f7faf4;--surface-3:#f1f7ed;
+ --green-soft:rgba(192,241,110,.18);--red-soft:rgba(239,43,32,.06);
+ --shadow-soft:0 12px 36px rgba(40,65,36,.07)
+}
+html,body,.app{background:#fff!important;color:#233525!important}
+body{background-image:none!important}
+.sidebar{background:#f8fbf6!important;border-right-color:#e0eade}
+.sidebar-brand{border-bottom-color:#e0eade}
+.brand-mark,.brand-lockup{color:#223c24}
+.brand-mark span,.brand-lockup span{color:#5c8b38}
+.brand-lockup small,.eyebrow,.muted,.topbar-subtitle{color:#687b6d}
+.login-screen{background:radial-gradient(circle at 80% 18%,rgba(192,241,110,.16),transparent 29%),#fff!important}
+.login-card{background:#fff!important;border-color:#e0eade;box-shadow:0 16px 50px rgba(40,65,36,.08)}
+.login-card h1,.topbar h1,.stat strong,.product-name{color:#233525}
+label,.label-title{color:#48604d!important}
+input,textarea,select,.search-box input,.toolbar select{background:#fff!important;color:#253e2a!important;border-color:#d9e7d4!important}
+input::placeholder,textarea::placeholder{color:#899a8c}
+input:focus,textarea:focus,select:focus{background:#fff!important;border-color:#92c769!important}
+.btn-primary,.btn.btn-primary{background:#c0f16e!important;color:#1c3117!important;border-color:#abd47b!important}
+.btn-primary:hover,.btn.btn-primary:hover{background:#d9ffac!important}
+.btn-ghost,.btn-link,.toolbar-clear,.mini-btn,.icon-button{background:#fff!important;color:#34533a!important;border-color:#dce8d7!important}
+.btn-ghost:hover,.mini-btn:hover,.icon-button:hover{background:#f2f8ee!important;color:#244229!important}
+.btn-danger{background:#ed675f!important;color:#fff!important}
+.nav-item{color:#586d5d!important}
+.nav-item:hover{background:#eef6e8!important;color:#2e5134!important}
+.nav-item.active{background:#eaf6e1!important;color:#3b7230!important;border-color:#b6d9a5!important}
+.nav-item.active .nav-icon{background:#c0f16e!important;color:#213819!important}
+.sidebar-store-link{background:#fff;border-color:#e1eadf}
+.sidebar-store-link strong{color:#345a36!important}
+.sidebar-store-link small,.admin-email{color:#6b7d6e!important}
+.topbar{background:#fff!important;border-color:#e5eee1}
+.stat,.products-panel,.toolbar,.product-toolbar,.products-table,.state-message{background:#fff!important;color:#233525!important;border-color:#e0eade!important;box-shadow:0 10px 24px rgba(38,72,37,.04)}
+.stat:hover,.stat-action:hover{background:#f6faf2!important}
+.stat small,#resultsCount,.products-table th,.products-table td[data-label]::before{color:#6c7d70!important}
+.products-table th{background:#f5faf2!important;border-color:#e0eade}
+.products-table tbody tr{background:#fff!important;border-color:#e0eade}
+.products-table tbody tr:hover{background:#f4f9ef!important}
+.products-table tbody tr:hover .product-name{color:#26462b!important}
+.product-cell,.product-meta{color:#66796a}
+.product-thumb-placeholder,.image-preview-wrap{background:#f2f7ef!important}
+.status-pill{background:#eff8e9!important;color:#436c37!important}
+.status-pill.active{color:#3c7634!important}
+.products-result-bar{color:#657a69}
+.modal-card,.confirm-card,#productForm{background:#fff!important;color:#263c2c;border-color:#dce8d7!important}
+.modal-header{background:#f9fcf7!important;border-color:#e0eade}
+.image-field,.upload-box{background:#f6faf3!important;border-color:#e0eade}
+.toast{background:#2b4a2f!important;color:#fff!important}
+.editor-workflow{background:#fff}
+.editor-workflow span{color:#738676}
+.editor-workflow i{color:#a0afa2}
+::selection{background:#c0f16e;color:#1e2d1c}
+@media(max-width:650px){.products-table tbody tr{background:#fff!important;box-shadow:0 7px 23px rgba(33,62,33,.045)}}
