@@ -9,8 +9,8 @@
     version: 1,
     campaign: { key: "original", label: "LOBI Original", icon: "spark", important: false, useHeroArt: false, usePromoArt: false, accent1: "#b7ff00", accent2: "#ef2b20" },
     theme: {
-      background: "#050505",
-      text: "#f4f4f1",
+      background: "#ffffff",
+      text: "#203124",
       primary: "#b7ff00",
       secondary: "#ef2b20",
       panel: "#0d0d0d",
