@@ -11,10 +11,10 @@
     theme: {
       background: "#ffffff",
       text: "#203124",
-      primary: "#b7ff00",
+      primary: "#c0f16e",
       secondary: "#ef2b20",
-      panel: "#0d0d0d",
-      muted: "#9a9a9a"
+      panel: "#f7faf4",
+      muted: "#627669"
     },
     header: { visible: true, height: 85, logoWidth: 115 },
     hero: {
