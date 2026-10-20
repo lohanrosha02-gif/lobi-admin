@@ -560,6 +560,10 @@
       try{
         const saved=JSON.parse(data[0].description||"{}");
         config=deepMerge(JSON.parse(JSON.stringify(defaults)),saved);
+        if((config.campaign?.key||"original")==="original" &&
+          ["#050505","#0c0f11","#000000"].includes(String(config.theme?.background||"").toLowerCase())){
+          Object.assign(config.theme,{background:"#ffffff",text:"#203124",primary:"#c0f16e",panel:"#f7faf4",muted:"#627669"});
+        }
       }catch(e){
         console.warn(e);
         config=JSON.parse(JSON.stringify(defaults));
